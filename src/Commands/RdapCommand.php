@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Spatie\Rdap\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class RdapCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-rdap';
 
     public $description = 'My command';
 
