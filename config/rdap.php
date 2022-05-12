@@ -13,4 +13,6 @@ return [
         'store_name' => null,
         'duration_in_seconds' => CarbonInterval::week()->totalSeconds,
     ],
+
+
 ];
