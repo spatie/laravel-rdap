@@ -8,7 +8,6 @@ class Rdap
 {
     public function __construct(protected RdapDns $rdapDns)
     {
-
     }
 
     public function domainInfo(string $domain): ?array

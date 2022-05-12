@@ -12,8 +12,7 @@ class RdapDns
     public function __construct(
         protected ?string $cacheStoreName = null,
         protected ?int $cacheTtl = null
-    )
-    {
+    ) {
         $this->cacheStoreName ??= config('tld_servers_cache.store_name') ?? config('cache.default');
 
         $this->cacheTtl ??= config('tld_servers_cache.duration_in_seconds');
@@ -25,7 +24,7 @@ class RdapDns
             ->first(function (array $tldServerProperties) use ($domain) {
                 $tlds = $tldServerProperties[0];
 
-                foreach($tlds as $tld) {
+                foreach ($tlds as $tld) {
                     if (str_ends_with($domain, $tld)) {
                         return true;
                     }
@@ -34,7 +33,7 @@ class RdapDns
                 return false;
             });
 
-        if (!$tldServerProperties) {
+        if (! $tldServerProperties) {
             return null;
         }
 
