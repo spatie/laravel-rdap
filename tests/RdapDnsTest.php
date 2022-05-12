@@ -2,7 +2,7 @@
 
 use Spatie\Rdap\RdapDns;
 
-beforeEach(function() {
+beforeEach(function () {
     $this->rdapDns = new RdapDns();
 });
 

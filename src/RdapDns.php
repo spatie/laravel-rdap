@@ -11,7 +11,8 @@ class RdapDns
 
     public function __construct(
         protected ?string $cacheStoreName = null,
-        protected ?int $cacheTtl = null)
+        protected ?int $cacheTtl = null
+    )
     {
         $this->cacheStoreName ??= config('tld_servers_cache.store_name') ?? config('cache.default');
 
@@ -25,7 +26,7 @@ class RdapDns
                 return in_array($searchingTld, $tldServerProperties[0]);
             });
 
-        if (!$tldServerProperties) {
+        if (! $tldServerProperties) {
             return null;
         }
 
@@ -42,9 +43,10 @@ class RdapDns
             function () {
                 return retry(
                     times: 3,
-                    callback: fn() => Http::get($this->serverJson)->json('services'),
+                    callback: fn () => Http::get($this->serverJson)->json('services'),
                     sleepMilliseconds: 1000
                 );
-            });
+            }
+        );
     }
 }
