@@ -4,7 +4,6 @@ namespace Spatie\Rdap;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Spatie\Rdap\Commands\RdapCommand;
 
 class RdapServiceProvider extends PackageServiceProvider
 {
