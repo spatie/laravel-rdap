@@ -11,7 +11,6 @@ class Rdap
 {
     public function __construct(protected RdapDns $rdapDns)
     {
-
     }
 
     public function domain(string $domain): ?DomainResponse
