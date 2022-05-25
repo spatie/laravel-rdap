@@ -10,7 +10,6 @@ class DomainResponse
 {
     public function __construct(protected array $responseProperties)
     {
-
     }
 
     public function all(): array
@@ -47,7 +46,7 @@ class DomainResponse
     {
         $events = $this->get('events');
 
-        foreach($events as $event) {
+        foreach ($events as $event) {
             if ($event['eventAction'] === $eventAction->value) {
                 $dateString = $event['eventDate'];
 
