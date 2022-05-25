@@ -68,6 +68,8 @@ To get information about a domain, call `domain()`.
 $domain = $rdap->domain('google.com'); // returns an instance of `Spatie\Rdap\Responses\DomainResponse`
 ```
 
+If you pass a non-existing domain, then the `domain()` function will return `null`.
+
 ### Get various dates
 
 On an instance of `DomainResponse` you can call various methods to fetch various dates. All of these methods return an instance of `Carbon\Carbon`.
@@ -79,16 +81,65 @@ $domain->lastChangedDate();
 $domain->lastUpdateOfRdapDb();
 ```
 
-### Getting all properties
+### Getting all domain properties
 
 You can get all properties of a `DomainResponse` using `all()`.
 
 ```php
-$properties = $domainResponse->all();
+$properties = $domain->all(); // returns an array
 ```
 
+To know which properties get returned, take a look at [this json containing the response for google.com](https://github.com/spatie/laravel-rdap/blob/b37a323a2743d7ae21c397367446160900aad517/tests/TestSupport/stubs/google-domain.json).
 
+### Getting a specific domain property
 
+Use `get()` to get a specific domain property.
+
+```php
+$domain->get('objectClassName'); // returns 'domain'
+```
+
+You can use dot notation to reach deeper in the properties.
+
+```php
+$domain->get('links.0.value') // returns 'https://rdap.verisign.com/com/v1/domain/GOOGLE.COM'
+```
+
+## Working with RDAP DNS
+
+For each TLD a specific server is used to respond to domain queries. Such a server is called a "DNS server". The official list of all RDAP DNS server is available as JSON [here](https://data.iana.org/rdap/dns.json).
+
+The `Spatie\Rdap\RdapDns` class can fetch information from that JSON file. Because all above domain methods need to search the approriate DNS server, we cache the list with available DNS servers. By default, the response will be cached for a week. You can configure this caching period in the `rdap` config file.
+
+You can resolve a configured instance from the container.
+
+```php
+$rdapDns = app(RdapDns::class);
+```
+
+### Get the DNS server URL
+
+To get the DNS server URL for a specific domain call  `getServerForDomain`:
+
+```php
+$rdapDns->getServerForDomain('google.com'); // returns "https://rdap.verisign.com/com/v1/"
+```
+
+Alternatively, you can use `getServerForTld` and pass a TLD.
+
+```php
+$rdapDns->getServerForDomain('com'); // returns "https://rdap.verisign.com/com/v1/"
+```
+
+If you pass a domain or tld that is not supported, the above methods will return `null`.
+
+### Get all supported TLDs
+
+To get a list of all supported TLDs, call `supportedTlds`.
+
+```php
+$rdapDns->supportedTlds(); // returns an array with all supported TLDs
+```
 
 ## Testing
 
