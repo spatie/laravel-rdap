@@ -2,7 +2,6 @@
 
 namespace Spatie\Rdap;
 
-use Exception;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Spatie\Rdap\Responses\DomainResponse;
