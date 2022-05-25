@@ -8,7 +8,9 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/spatie/laravel-rdap/Check%20&%20fix%20styling?label=code%20style)](https://github.com/spatie/laravel-rdap/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-rdap.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-rdap)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+RDAP is a protocol to query domain registration data. It is seen as the successor to WHOIS. The main advantage of WHOIS is that the returned data is standardized and structured as JSON. A downside of RDAP is that, at the moment of writing, not all TLDs are supported.
+
+This package contains a few classes to query basic data from RDAP. It also provides caching of the responses out of the box.
 
 ## Support us
 
@@ -26,12 +28,6 @@ You can install the package via composer:
 composer require spatie/laravel-rdap
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="laravel-rdap-migrations"
-php artisan migrate
-```
 
 You can publish the config file with:
 
@@ -43,21 +39,56 @@ This is the contents of the published config file:
 
 ```php
 return [
+    /*
+     * When making an RDAP query, we first have got to make a request to determine
+     *  the server responsible for the tld of the query. Here you can specify
+     * how long we should cache the server URLs.
+     */
+
+    'tld_servers_cache' => [
+        'store_name' => null,
+        'duration_in_seconds' => CarbonInterval::week()->totalSeconds,
+    ],
 ];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-rdap-views"
 ```
 
 ## Usage
 
+You can get resolve a RDS instance from the container:
+
 ```php
-$rdap = new Spatie\Rdap();
-echo $rdap->echoPhrase('Hello, Spatie!');
+$rdap = app(Rdap::class)
 ```
+
+## Perform a domain query
+
+To get information about a domain, call `domain()`.
+
+```php
+$domain = $rdap->domain('google.com'); // returns an instance of `Spatie\Rdap\Responses\DomainResponse`
+```
+
+### Get various dates
+
+On an instance of `DomainResponse` you can call various methods to fetch various dates. All of these methods return an instance of `Carbon\Carbon`.
+
+```
+$domain->registrationDate();
+$domain->expirationDate();
+$domain->lastChangedDate();
+$domain->lastUpdateOfRdapDb();
+```
+
+### Getting all properties
+
+You can get all properties of a `DomainResponse` using `all()`.
+
+```php
+$properties = $domainResponse->all();
+```
+
+
+
 
 ## Testing
 
