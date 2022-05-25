@@ -58,6 +58,18 @@ class RdapDns
         return $servers[0] ?? null;
     }
 
+    public function supportedTlds(): array
+    {
+        return collect($this->getAllServers())
+            ->flatMap(function(array $tldProperties) {
+                return $tldProperties[0];
+            })
+            ->unique()
+            ->sort()
+            ->values()
+            ->toArray();
+    }
+
     public function getAllServers(): array
     {
         return Cache::store($this->cacheStoreName)->remember(

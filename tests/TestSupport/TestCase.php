@@ -4,6 +4,7 @@ namespace Spatie\Rdap\Tests\TestSupport;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Rdap\RdapServiceProvider;
 
 class TestCase extends Orchestra
@@ -11,6 +12,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            RayServiceProvider::class,
             RdapServiceProvider::class,
         ];
     }
