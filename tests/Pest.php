@@ -11,7 +11,7 @@ expect()->extend('toBeDate', function (string $expectedDate) {
     expect($this->value->format('Y-m-d H:i:s'))->toBe($expectedDate);
 });
 
-expect()->extend('toHaveCountGreaterThan', function(int $expectedGreaterThan) {
+expect()->extend('toHaveCountGreaterThan', function (int $expectedGreaterThan) {
     $actualCount = count($this->value);
 
     expect($actualCount)->toBeGreaterThan($expectedGreaterThan);

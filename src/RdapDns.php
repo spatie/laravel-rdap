@@ -61,7 +61,7 @@ class RdapDns
     public function supportedTlds(): array
     {
         return collect($this->getAllServers())
-            ->flatMap(function(array $tldProperties) {
+            ->flatMap(function (array $tldProperties) {
                 return $tldProperties[0];
             })
             ->unique()

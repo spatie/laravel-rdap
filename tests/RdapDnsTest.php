@@ -24,7 +24,7 @@ it('will return null for a non-supported domain', function () {
     expect($this->rdapDns->getServerForDomain('example.be'))->toBeNull();
 });
 
-it('can return all supported tlds', function() {
+it('can return all supported tlds', function () {
     expect($this->rdapDns->supportedTlds())->toHaveCountGreaterThan(100);
     expect($this->rdapDns->supportedTlds()[0])->toBe('aaa');
 });
