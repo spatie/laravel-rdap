@@ -57,7 +57,7 @@ return [
 You can get resolve a configured `Rdap` instance from the container:
 
 ```php
-$rdap = app(Rdap::class)
+$rdap = app(Rdap::class);
 ```
 
 ## Perform a domain query
@@ -102,7 +102,7 @@ $domain->get('objectClassName'); // returns 'domain'
 You can use dot notation to reach deeper in the properties.
 
 ```php
-$domain->get('links.0.value') // returns 'https://rdap.verisign.com/com/v1/domain/GOOGLE.COM'
+$domain->get('links.0.value'); // returns 'https://rdap.verisign.com/com/v1/domain/GOOGLE.COM'
 ```
 
 ## Working with RDAP DNS
