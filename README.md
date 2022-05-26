@@ -128,7 +128,7 @@ $rdapDns->getServerForDomain('google.com'); // returns "https://rdap.verisign.co
 Alternatively, you can use `getServerForTld` and pass a TLD.
 
 ```php
-$rdapDns->getServerForDomain('com'); // returns "https://rdap.verisign.com/com/v1/"
+$rdapDns->getServerForTld('com'); // returns "https://rdap.verisign.com/com/v1/"
 ```
 
 If you pass a domain or tld that is not supported, the above methods will return `null`.
