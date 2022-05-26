@@ -54,7 +54,7 @@ return [
 
 ## Usage
 
-You can get resolve a configured `Rdap` instance from the container:
+You can resolve a configured `Rdap` instance from the container:
 
 ```php
 $rdap = app(Rdap::class);
