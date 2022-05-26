@@ -19,7 +19,7 @@ class Rdap
         $url = "{$dnsServer}domain/{$domain}";
 
         try {
-            $response = Http::timeout(5)->retry(times: 3, sleep: 1)->get($url)->json();
+            $response = Http::timeout(5)->retry(times: 3, sleepMilliseconds: 1000)->get($url)->json();
         } catch (RequestException $exception) {
             if ($exception->getCode() === 404) {
                 return null;
