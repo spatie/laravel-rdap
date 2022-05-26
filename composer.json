@@ -18,10 +18,10 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.4",
-        "illuminate/cache": "^9.12",
-        "illuminate/contracts": "^9.0",
-        "illuminate/http": "^9.12",
-        "spatie/laravel-package-tools": "^1.9.2"
+        "illuminate/cache": "^9.14",
+        "illuminate/contracts": "^9.14",
+        "illuminate/http": "^9.14",
+        "spatie/laravel-package-tools": "^1.11"
     },
     "require-dev": {
         "nunomaduro/collision": "^6.0",
