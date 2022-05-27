@@ -16,6 +16,10 @@ class Rdap
     {
         $dnsServer = $this->rdapDns->getServerForDomain($domain);
 
+        if (! $dnsServer) {
+            throw CouldNotFindRdapServer::forDomain($domain);
+        }
+
         $url = "{$dnsServer}domain/{$domain}";
 
         try {
