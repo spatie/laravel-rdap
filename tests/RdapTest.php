@@ -20,6 +20,6 @@ it('will return null for a non-existing domain', function () {
     expect($response)->toBeNull();
 });
 
-it('will throw an exception for a non-supported domain', function() {
+it('will throw an exception for a non-supported domain', function () {
     $this->rdap->domain('flareapp.io');
 })->throws(CouldNotFindRdapServer::class);
