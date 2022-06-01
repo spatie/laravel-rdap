@@ -59,7 +59,8 @@
         "laravel": {
             "providers": [
                 "Spatie\\Rdap\\RdapServiceProvider"
-            ]
+            ],
+
         }
     },
     "minimum-stability": "dev",

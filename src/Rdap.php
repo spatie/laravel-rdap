@@ -34,4 +34,19 @@ class Rdap
 
         return new DomainResponse($response);
     }
+
+    public function domainIsSupported(string $domain): bool
+    {
+        return $this->dns()->getServerForDomain($domain) !== null;
+    }
+
+    public function dns(): RdapDns
+    {
+        return $this->rdapDns;
+    }
+
+    public function supportedTlds(): array
+    {
+        return $this->dns()->supportedTlds();
+    }
 }

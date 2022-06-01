@@ -12,5 +12,7 @@ class RdapServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-rdap')
             ->hasConfigFile();
+
+        $this->app->bind('rdap', Rdap::class);
     }
 }

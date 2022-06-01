@@ -23,3 +23,16 @@ it('will return null for a non-existing domain', function () {
 it('will throw an exception for a non-supported domain', function() {
     $this->rdap->domain('flareapp.io');
 })->throws(CouldNotFindRdapServer::class);
+
+it('can determine that a domain is supported', function() {
+    expect($this->rdap->domainIsSupported('freek.dev'))->toBeTrue();
+});
+
+it('can determine that a domain is not supported', function() {
+    expect($this->rdap->domainIsSupported('spatie.be'))->toBeFalse();
+});
+
+it('can return all supported tlds', function () {
+    expect($this->rdap->supportedTlds())->toHaveCountGreaterThan(100);
+    expect($this->rdap->supportedTlds()[0])->toBe('aaa');
+});

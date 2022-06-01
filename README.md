@@ -54,18 +54,15 @@ return [
 
 ## Usage
 
-You can resolve a configured `Rdap` instance from the container:
-
-```php
-$rdap = app(Rdap::class);
-```
 
 ## Perform a domain query
 
 To get information about a domain, call `domain()`.
 
 ```php
-$domain = $rdap->domain('google.com'); // returns an instance of `Spatie\Rdap\Responses\DomainResponse`
+use Spatie\Rdap\Facades\Rdap;
+
+$domain = Rdap::domain('google.com'); // returns an instance of `Spatie\Rdap\Responses\DomainResponse`
 ```
 
 If you pass a non-existing domain, then the `domain()` function will return `null`.
@@ -105,16 +102,35 @@ You can use dot notation to reach deeper in the properties.
 $domain->get('links.0.value'); // returns 'https://rdap.verisign.com/com/v1/domain/GOOGLE.COM'
 ```
 
+### Check if domain is supported by Rdap
+
+You can check if Rdap has info about your domain using `domainIsSupported`
+
+```php
+use Spatie\Rdap\Facades\Rdap;
+
+Rdap::isSupportedDomain('freek.dev'); // returns true;
+Rdap::isSupportedDomain('spatie.be'); // returns false because 'be' isn't currently a supported tld;
+```
+
+```php
+use Spatie\Rdap\Facades\Rdap;
+
+$domain = Rdap::domain('google.com'); // returns an instance of `Spatie\Rdap\Responses\DomainResponse`
+```
+
+If you pass a non-existing domain, then the `domain()` function will return `null`.
+
 ## Working with RDAP DNS
 
 For each TLD a specific server is used to respond to domain queries. Such a server is called a "DNS server". The official list of all RDAP DNS server is available as JSON [here](https://data.iana.org/rdap/dns.json).
 
 The `Spatie\Rdap\RdapDns` class can fetch information from that JSON file. Because all above domain methods need to search the approriate DNS server, we cache the list with available DNS servers. By default, the response will be cached for a week. You can configure this caching period in the `rdap` config file.
 
-You can resolve a configured instance from the container.
+You can get info on Rdap DNS via this `dns` function.
 
 ```php
-$rdapDns = app(RdapDns::class);
+$rdapDns = Spatie\Rdap\Facades\Rdap::dns();
 ```
 
 ### Get the DNS server URL
