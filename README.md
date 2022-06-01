@@ -32,7 +32,7 @@ composer require spatie/laravel-rdap
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-rdap-config"
+php artisan vendor:publish --tag="rdap-config"
 ```
 
 This is the contents of the published config file:
