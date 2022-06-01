@@ -60,7 +60,9 @@
             "providers": [
                 "Spatie\\Rdap\\RdapServiceProvider"
             ],
-
+            "aliases": {
+                "Rdap": "Spatie\\Rdap\\Facades\\Rdap"
+            }
         }
     },
     "minimum-stability": "dev",
