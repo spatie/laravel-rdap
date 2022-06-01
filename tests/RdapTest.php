@@ -24,11 +24,11 @@ it('will throw an exception for a non-supported domain', function () {
     $this->rdap->domain('flareapp.io');
 })->throws(CouldNotFindRdapServer::class);
 
-it('can determine that a domain is supported', function() {
+it('can determine that a domain is supported', function () {
     expect($this->rdap->domainIsSupported('freek.dev'))->toBeTrue();
 });
 
-it('can determine that a domain is not supported', function() {
+it('can determine that a domain is not supported', function () {
     expect($this->rdap->domainIsSupported('spatie.be'))->toBeFalse();
 });
 
