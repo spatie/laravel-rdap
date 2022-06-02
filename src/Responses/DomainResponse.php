@@ -4,6 +4,7 @@ namespace Spatie\Rdap\Responses;
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Spatie\Rdap\Enums\DomainStatus;
 use Spatie\Rdap\Enums\EventAction;
 
 class DomainResponse
@@ -40,6 +41,17 @@ class DomainResponse
     public function lastUpdateOfRdapDb(): ?Carbon
     {
         return $this->getEventDate(EventAction::LastUpdateOfRdapDb);
+    }
+
+    public function hasStatus(string|DomainStatus $domainStatus): bool
+    {
+        if ($domainStatus instanceof  DomainStatus) {
+            $domainStatus = $domainStatus->value;
+        }
+
+        $allStatuses = $this->get('status') ?? [];
+
+        return in_array($domainStatus, $allStatuses);
     }
 
     protected function getEventDate(EventAction $eventAction): ?Carbon
