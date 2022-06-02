@@ -44,7 +44,7 @@ it('can get a specific property', function () {
     expect($this->domainResponse->get('links.0.value'))->toBe('https://rdap.verisign.com/com/v1/domain/GOOGLE.COM');
 });
 
-it('can determine that a domain has a given status', function() {
+it('can determine that a domain has a given status', function () {
     expect($this->domainResponse->hasStatus(DomainStatus::ClientTransferProhibited))->toBeTrue();
     expect($this->domainResponse->hasStatus('some unknown status'))->toBeFalse();
 });
