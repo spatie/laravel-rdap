@@ -33,8 +33,7 @@ class Rdap
             }
 
             throw $exception;
-        } catch(ConnectionException $exception) {
-
+        } catch (ConnectionException $exception) {
             throw RdapRequestTimedOut::make($domain, $exception);
         }
 
