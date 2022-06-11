@@ -19,11 +19,10 @@ class Rdap
         int $timeoutInSeconds = null,
         int $retryTimes = null,
         int $sleepInMillisecondsBetweenRetries = null,
-    ): ?DomainResponse
-    {
+    ): ?DomainResponse {
         $dnsServer = $this->rdapDns->getServerForDomain($domain);
 
-        if (!$dnsServer) {
+        if (! $dnsServer) {
             throw CouldNotFindRdapServer::forDomain($domain);
         }
 
