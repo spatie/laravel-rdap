@@ -131,6 +131,10 @@ $domain = Rdap::domain('google.com'); // returns an instance of `Spatie\Rdap\Res
 
 If you pass a non-existing domain, then the `domain()` function will return `null`.
 
+## Handling timeouts
+
+Sometimes RDAP is slow in responding. If a response isn't returned in a timely manner, a `Spatie\Rdap\Exceptions\RdapRequestTimedOut` exception will be thrown.
+
 ## Working with RDAP DNS
 
 For each TLD a specific server is used to respond to domain queries. Such a server is called a "DNS server". The official list of all RDAP DNS server is available as JSON [here](https://data.iana.org/rdap/dns.json).

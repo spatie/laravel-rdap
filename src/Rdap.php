@@ -2,8 +2,10 @@
 
 namespace Spatie\Rdap;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
+use Spatie\Rdap\Exceptions\RdapRequestTimedOut;
 use Spatie\Rdap\Responses\DomainResponse;
 
 class Rdap
@@ -24,12 +26,16 @@ class Rdap
 
         try {
             $response = Http::timeout(5)->retry(times: 3, sleepMilliseconds: 1000)->get($url)->json();
+            dd($response);
         } catch (RequestException $exception) {
             if ($exception->getCode() === 404) {
                 return null;
             }
 
             throw $exception;
+        } catch(ConnectionException $exception) {
+
+            throw RdapRequestTimedOut::make($domain, $exception);
         }
 
         return new DomainResponse($response);

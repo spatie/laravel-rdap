@@ -1,6 +1,7 @@
 <?php
 
 use Spatie\Rdap\CouldNotFindRdapServer;
+use Spatie\Rdap\Exceptions\RdapRequestTimedOut;
 use Spatie\Rdap\Rdap;
 use Spatie\Rdap\Responses\DomainResponse;
 
@@ -35,4 +36,19 @@ it('can determine that a domain is not supported', function () {
 it('can return all supported tlds', function () {
     expect($this->rdap->supportedTlds())->toHaveCountGreaterThan(100);
     expect($this->rdap->supportedTlds()[0])->toBe('aaa');
+});
+
+it('could throw a time out exception if getting results takes too long', function() {
+    try {
+        $result = $this->rdap->domain('this-domain-does-not-exists-and-takes-a-long-time.com');
+
+        // sometimes it returns null
+        expect($result)->toBeNull();
+        return;
+
+        //sometimes it times out
+    } catch (RdapRequestTimedOut $timedOut) {
+        expect($timedOut)->toBeInstanceOf(RdapRequestTimedOut::class);
+    }
+
 });
