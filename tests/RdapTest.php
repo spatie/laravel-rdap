@@ -38,17 +38,17 @@ it('can return all supported tlds', function () {
     expect($this->rdap->supportedTlds()[0])->toBe('aaa');
 });
 
-it('could throw a time out exception if getting results takes too long', function() {
+it('could throw a time out exception if getting results takes too long', function () {
     try {
         $result = $this->rdap->domain('this-domain-does-not-exists-and-takes-a-long-time.com');
 
         // sometimes it returns null
         expect($result)->toBeNull();
+
         return;
 
         //sometimes it times out
     } catch (RdapRequestTimedOut $timedOut) {
         expect($timedOut)->toBeInstanceOf(RdapRequestTimedOut::class);
     }
-
 });
