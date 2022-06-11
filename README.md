@@ -38,6 +38,10 @@ php artisan vendor:publish --tag="rdap-config"
 This is the contents of the published config file:
 
 ```php
+<?php
+
+use Carbon\CarbonInterval;
+
 return [
     /*
      * When making an RDAP query, we first have got to make a request to determine
@@ -48,6 +52,26 @@ return [
     'tld_servers_cache' => [
         'store_name' => null,
         'duration_in_seconds' => CarbonInterval::week()->totalSeconds,
+    ],
+
+    /*
+     * RDAP seem to be a bit unreliable when responding to domain queries. 
+     * We solve this by attempting a request to RDAP a couple of times 
+     * until we get a response.
+     */
+    'domain_queries' => [
+        /*
+         * How long we should wait per attempt to get a response
+         */
+        'timeout_in_seconds' => 5,
+        /*
+         * How many times we should attempt getting a response
+         */
+        'retry_times' => 3,
+        /*
+         * The time between attempts
+         */
+        'sleep_in_milliseconds_between_retries' => 1000,
     ],
 ];
 ```
@@ -66,6 +90,21 @@ $domain = Rdap::domain('google.com'); // returns an instance of `Spatie\Rdap\Res
 ```
 
 If you pass a non-existing domain, then the `domain()` function will return `null`.
+
+### Retring requests
+
+RDAP seem to be a bit unreliable when responding to domain requests.  We solve this by attempting a request to RDAP a couple of times  until we get a response. In the `rdap` config file, you can set the defaults for the retry mechanism. 
+
+You can override those defaults, by passing extra parameters to `domain`.
+
+```php
+$domain = Rdap::domain(
+   'google.com'
+   timeoutInSecons: 10,
+   retryTimes: 4,
+   sleepInMillisecondsBetweenRetries: 2000,       
+);
+````
 
 ### Get various dates
 

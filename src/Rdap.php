@@ -14,27 +14,37 @@ class Rdap
     {
     }
 
-    public function domain(string $domain): ?DomainResponse
+    public function domain(
+        string $domain,
+        int $timeoutInSeconds = null,
+        int $retryTimes = null,
+        int $sleepInMillisecondsBetweenRetries = null,
+    ): ?DomainResponse
     {
         $dnsServer = $this->rdapDns->getServerForDomain($domain);
 
-        if (! $dnsServer) {
+        if (!$dnsServer) {
             throw CouldNotFindRdapServer::forDomain($domain);
         }
 
         $url = "{$dnsServer}domain/{$domain}";
 
+        $timeoutInSeconds ??= config('rdap.domain_queries.timeout_in_seconds');
+        $retryTimes ??= config('rdap.domain_queries.retry_times');
+        $sleepInMillisecondsBetweenRetries ??= config('rdap.domain_queries.sleep_in_milliseconds_between_retries');
+
         try {
-            $response = Http::timeout(5)->retry(times: 3, sleepMilliseconds: 1000)->get($url)->json();
-            dd($response);
+            $response = Http::timeout($timeoutInSeconds)
+                ->retry(times: $retryTimes, sleepMilliseconds: $sleepInMillisecondsBetweenRetries)
+                ->get($url)
+                ->json();
         } catch (RequestException $exception) {
             if ($exception->getCode() === 404) {
                 return null;
             }
 
             throw $exception;
-        } catch(ConnectionException $exception) {
-
+        } catch (ConnectionException $exception) {
             throw RdapRequestTimedOut::make($domain, $exception);
         }
 
