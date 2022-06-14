@@ -141,7 +141,7 @@ You can use dot notation to reach deeper in the properties.
 $domain->get('links.0.value'); // returns 'https://rdap.verisign.com/com/v1/domain/GOOGLE.COM'
 ```
 
-### Check if a domain as a specific status
+### Check if a domain has a specific status
 
 You can check if a domain has a specific status, such as "client transfer prohibited", using the `hasStatus` method.
 
