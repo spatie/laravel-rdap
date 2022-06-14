@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.0.0 - 2022-06-14
+
+- initial release
+
 ## 0.0.7 - 2022-06-11
 
 **Full Changelog**: https://github.com/spatie/laravel-rdap/compare/0.0.6...0.0.7
