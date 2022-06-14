@@ -91,7 +91,7 @@ $domain = Rdap::domain('google.com'); // returns an instance of `Spatie\Rdap\Res
 
 If you pass a non-existing domain, then the `domain()` function will return `null`.
 
-### Retring requests
+### Retrying requests
 
 RDAP seem to be a bit unreliable when responding to domain requests.  We solve this by attempting a request to RDAP a couple of times  until we get a response. In the `rdap` config file, you can set the defaults for the retry mechanism. 
 
