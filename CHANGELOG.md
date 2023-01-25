@@ -2,6 +2,23 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.0.1 - 2023-01-25
+
+### What's Changed
+
+- Fix typo in readme by @kapersoft in https://github.com/spatie/laravel-rdap/pull/17
+- Bump dependabot/fetch-metadata from 1.3.1 to 1.3.3 by @dependabot in https://github.com/spatie/laravel-rdap/pull/19
+- Bump dependabot/fetch-metadata from 1.3.3 to 1.3.4 by @dependabot in https://github.com/spatie/laravel-rdap/pull/20
+- Bump dependabot/fetch-metadata from 1.3.4 to 1.3.5 by @dependabot in https://github.com/spatie/laravel-rdap/pull/21
+- Bump ramsey/composer-install from 1 to 2 by @dependabot in https://github.com/spatie/laravel-rdap/pull/22
+
+### New Contributors
+
+- @kapersoft made their first contribution in https://github.com/spatie/laravel-rdap/pull/17
+- @dependabot made their first contribution in https://github.com/spatie/laravel-rdap/pull/19
+
+**Full Changelog**: https://github.com/spatie/laravel-rdap/compare/1.0.0...1.0.1
+
 ## 1.0.0 - 2022-06-14
 
 - initial release
