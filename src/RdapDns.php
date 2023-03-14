@@ -25,7 +25,7 @@ class RdapDns
                 $tlds = $tldServerProperties[0];
 
                 foreach ($tlds as $tld) {
-                    if (str_ends_with($domain, $tld)) {
+                    if (str_ends_with($domain, ".{$tld}")) {
                         return true;
                     }
                 }
