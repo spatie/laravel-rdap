@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.0.2 - 2023-03-14
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.5 to 1.3.6 by @dependabot in https://github.com/spatie/laravel-rdap/pull/23
+- Prevent eager matching of tld by @resohead in https://github.com/spatie/laravel-rdap/pull/24
+
+### New Contributors
+
+- @resohead made their first contribution in https://github.com/spatie/laravel-rdap/pull/24
+
+**Full Changelog**: https://github.com/spatie/laravel-rdap/compare/1.0.1...1.0.2
+
 ## 1.0.1 - 2023-01-25
 
 ### What's Changed
