@@ -1,8 +1,6 @@
 # Perform RDAP queries in a Laravel app
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-rdap.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-rdap)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/spatie/laravel-rdap/run-tests?label=tests)](https://github.com/spatie/laravel-rdap/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/spatie/laravel-rdap/Check%20&%20fix%20styling?label=code%20style)](https://github.com/spatie/laravel-rdap/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-rdap.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-rdap)
 
 RDAP is a protocol to query domain registration data. It is seen as the successor to WHOIS. The main advantage of WHOIS is that the returned data is standardized and structured as JSON. A downside of RDAP is that, at the moment of writing, not all TLDs are supported.
