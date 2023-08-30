@@ -155,8 +155,8 @@ You can check if Rdap has info about your domain using `domainIsSupported`
 ```php
 use Spatie\Rdap\Facades\Rdap;
 
-Rdap::isSupportedDomain('freek.dev'); // returns true;
-Rdap::isSupportedDomain('spatie.be'); // returns false because 'be' isn't currently a supported tld;
+Rdap::domainIsSupported('freek.dev'); // returns true;
+Rdap::domainIsSupported('spatie.be'); // returns false because 'be' isn't currently a supported tld;
 ```
 
 ```php
