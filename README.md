@@ -3,7 +3,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-rdap.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-rdap)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-rdap.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-rdap)
 
-RDAP is a protocol to query domain registration data. It is seen as the successor to WHOIS. The main advantage of WHOIS is that the returned data is standardized and structured as JSON. A downside of RDAP is that, at the moment of writing, not all TLDs are supported.
+RDAP is a protocol to query domain registration data. It is seen as the successor to WHOIS. The main advantage over WHOIS is that the returned data is standardized and structured as JSON. A downside of RDAP is that, at the moment of writing, not all TLDs are supported.
 
 This package contains a few classes to query basic data from RDAP. It also provides caching of the responses out of the box.
 
