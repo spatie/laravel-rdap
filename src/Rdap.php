@@ -5,6 +5,7 @@ namespace Spatie\Rdap;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
+use Spatie\Rdap\Exceptions\InvalidRdapResponse;
 use Spatie\Rdap\Exceptions\RdapRequestTimedOut;
 use Spatie\Rdap\Responses\DomainResponse;
 
@@ -45,6 +46,12 @@ class Rdap
             throw $exception;
         } catch (ConnectionException $exception) {
             throw RdapRequestTimedOut::make($domain, $exception);
+        }
+
+        if (empty($response)) {
+            // Some misconfigured RDAP servers might return (invalid) HTML responses.
+            // The JSON conversion will return an empty array in that case.
+            throw InvalidRdapResponse::make($domain);
         }
 
         return new DomainResponse($response);

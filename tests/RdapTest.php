@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Http;
 use Spatie\Rdap\CouldNotFindRdapServer;
+use Spatie\Rdap\Exceptions\InvalidRdapResponse;
 use Spatie\Rdap\Exceptions\RdapRequestTimedOut;
 use Spatie\Rdap\Rdap;
 use Spatie\Rdap\Responses\DomainResponse;
@@ -50,5 +52,20 @@ it('could throw a time out exception if getting results takes too long', functio
         //sometimes it times out
     } catch (RdapRequestTimedOut $timedOut) {
         expect($timedOut)->toBeInstanceOf(RdapRequestTimedOut::class);
+    }
+});
+
+it('throws a invalid response exception if rdap servers returns invalid response', function () {
+    Http::fake([
+        'rdap.nic.io/*' => Http::response('invalid response'),
+    ]);
+
+    try {
+        $result = $this->rdap->domain('invalid-domain-response.com');
+
+        // sometimes it returns null
+        expect($result)->toBeNull();
+    } catch (InvalidRdapResponse $invalidResponse) {
+        expect($invalidResponse)->toBeInstanceOf(InvalidRdapResponse::class);
     }
 });
