@@ -165,9 +165,13 @@ $domain = Rdap::domain('google.com'); // returns an instance of `Spatie\Rdap\Res
 
 If you pass a non-existing domain, then the `domain()` function will return `null`.
 
-## Handling timeouts
+## Handling errors
 
 Sometimes RDAP is slow in responding. If a response isn't returned in a timely manner, a `Spatie\Rdap\Exceptions\RdapRequestTimedOut` exception will be thrown.
+
+Sometimes RDAP servers return with an invalid response. If that happens, a `Spatie\Rdap\Exceptions\InvalidRdapResponse` exception will be thrown.
+
+Both exceptions implement `Spatie\Rdap\Exceptions\RdapException`. You can catch that exception to handle both cases.
 
 ## Working with RDAP DNS
 
