@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.1.0 - 2024-03-11
+
+### What's Changed
+
+* Bump ramsey/composer-install from 2 to 3 by @dependabot in https://github.com/spatie/laravel-rdap/pull/34
+
+**Full Changelog**: https://github.com/spatie/laravel-rdap/compare/1.0.3...1.1.0
+
 ## 1.0.3 - 2023-10-31
 
 ### What's Changed
