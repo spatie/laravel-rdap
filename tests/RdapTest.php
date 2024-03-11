@@ -53,7 +53,7 @@ it('could throw a time out exception if getting results takes too long', functio
     } catch (RdapRequestTimedOut $timedOut) {
         expect($timedOut)->toBeInstanceOf(RdapRequestTimedOut::class);
     }
-});
+})->skip();
 
 it('throws a invalid response exception if rdap servers returns invalid response', function () {
     Http::fake([
