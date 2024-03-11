@@ -3,7 +3,6 @@
 namespace Spatie\Rdap\Exceptions;
 
 use Exception;
-use Illuminate\Http\Client\ConnectionException;
 
 class InvalidRdapResponse extends Exception implements RdapException
 {
