@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.1.1 - 2025-02-25
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 1.6.0 to 2.1.0 by @dependabot in https://github.com/spatie/laravel-rdap/pull/36
+* Bump dependabot/fetch-metadata from 2.1.0 to 2.2.0 by @dependabot in https://github.com/spatie/laravel-rdap/pull/37
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/spatie/laravel-rdap/pull/38
+* Laravel 12 support by @mbardelmeijer in https://github.com/spatie/laravel-rdap/pull/39
+
+**Full Changelog**: https://github.com/spatie/laravel-rdap/compare/1.1.0...1.1.1
+
 ## 1.1.0 - 2024-03-11
 
 ### What's Changed
