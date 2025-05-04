@@ -17,9 +17,9 @@ class Rdap
 
     public function domain(
         string $domain,
-        int $timeoutInSeconds = null,
-        int $retryTimes = null,
-        int $sleepInMillisecondsBetweenRetries = null,
+        ?int $timeoutInSeconds = null,
+        ?int $retryTimes = null,
+        ?int $sleepInMillisecondsBetweenRetries = null,
     ): ?DomainResponse {
         $dnsServer = $this->rdapDns->getServerForDomain($domain);
 
