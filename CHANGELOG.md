@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.1.2 - 2025-05-04
+
+### What's Changed
+
+* Fix: PHP 8.4 deprecation by @estevao-simoes in https://github.com/spatie/laravel-rdap/pull/40
+
+### New Contributors
+
+* @estevao-simoes made their first contribution in https://github.com/spatie/laravel-rdap/pull/40
+
+**Full Changelog**: https://github.com/spatie/laravel-rdap/compare/1.1.1...1.1.2
+
 ## 1.1.1 - 2025-02-25
 
 ### What's Changed
