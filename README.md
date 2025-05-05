@@ -68,6 +68,24 @@ return [
          */
         'sleep_in_milliseconds_between_retries' => 1000,
     ],
+    "ip_queries" => [
+        /*
+         * How long we should wait per attempt to get a response
+         */
+        "timeout_in_seconds" => 5,
+        /*
+         * How many times we should attempt getting a response
+         */
+        "retry_times" => 3,
+        /*
+         * The time between attempts
+         */
+        "sleep_in_milliseconds_between_retries" => 1000,
+        /**
+         * The url to hit for IP queries
+         */
+        "url" => "https://rdap.org/ip/",
+    ],
 ];
 ```
 
@@ -172,6 +190,26 @@ Sometimes RDAP is slow in responding. If a response isn't returned in a timely m
 Sometimes RDAP servers return with an invalid response. If that happens, a `Spatie\Rdap\Exceptions\InvalidRdapResponse` exception will be thrown.
 
 Both exceptions implement `Spatie\Rdap\Exceptions\RdapException`. You can catch that exception to handle both cases.
+
+## Perform an IP query
+
+To get information about an IP, call ip().
+
+```php
+use Spatie\Rdap\Facades\Rdap;
+$ip = Rdap::ip("127.0.0.1"); // returns an instance of `Spatie\Rdap\Responses\IpResponse
+````
+### Get various Dates from the IpRespones
+
+On an instance of `IpResponse` you can call various methods to fetch various dates. All of these methods return an instance of `Carbon\Carbon`.
+
+```php
+$ip->registrationDate();
+$ip->expirationDate();
+$ip->lastChangedDate();
+$ip->lastUpdateOfRdapDb();
+```
+
 
 ## Working with RDAP DNS
 

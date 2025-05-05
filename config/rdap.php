@@ -33,4 +33,22 @@ return [
          */
         'sleep_in_milliseconds_between_retries' => 1000,
     ],
+    "ip_queries" => [
+        /*
+         * How long we should wait per attempt to get a response
+         */
+        "timeout_in_seconds" => 5,
+        /*
+         * How many times we should attempt getting a response
+         */
+        "retry_times" => 3,
+        /*
+         * The time between attempts
+         */
+        "sleep_in_milliseconds_between_retries" => 1000,
+        /**
+         * The url to hit for IP queries
+         */
+        "url" => "https://rdap.org/ip/",
+    ],
 ];
