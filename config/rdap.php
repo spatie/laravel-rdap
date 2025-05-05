@@ -46,9 +46,5 @@ return [
          * The time between attempts
          */
         "sleep_in_milliseconds_between_retries" => 1000,
-        /**
-         * The url to hit for IP queries
-         */
-        "url" => "https://rdap.org/ip/",
     ],
 ];
