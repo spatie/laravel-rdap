@@ -81,10 +81,6 @@ return [
          * The time between attempts
          */
         "sleep_in_milliseconds_between_retries" => 1000,
-        /**
-         * The url to hit for IP queries
-         */
-        "url" => "https://rdap.org/ip/",
     ],
 ];
 ```
@@ -209,7 +205,12 @@ $ip->expirationDate();
 $ip->lastChangedDate();
 $ip->lastUpdateOfRdapDb();
 ```
+## Getting a specific IP property
 
+Similar to domain, you may call ->get() to get a specific property.
+```php
+$ip->get("objectClassName"); // returns ip network
+```
 
 ## Working with RDAP DNS
 
@@ -246,7 +247,20 @@ To get a list of all supported TLDs, call `supportedTlds`.
 ```php
 $rdapDns->supportedTlds(); // returns an array with all supported TLDs
 ```
+### Working with IPv4/IPv6 registries
 
+Similar to RdapDns you may call getAllIPServers() to see all registries.
+```php
+use Spatie\Rdap\RdapIpV4;
+$ipv4 = new RdapIpV4();
+$ipv4->getAllIPServers(); // returns array<int, array<int, string>>
+```
+To find the server for an IP you may call getServerForIP().
+```php
+use Spatie\Rdap\RdapIpV4;
+$ipv4 = new RdapIpV4();
+$ipv4->getServerForIP("216.58.207.206"); // returns "https://rdap.arin.net/registry/"
+```
 ## Testing
 
 ```bash

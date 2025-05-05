@@ -13,6 +13,14 @@ return [
         'store_name' => null,
         'duration_in_seconds' => CarbonInterval::week()->totalSeconds,
     ],
+    'ipv4_servers_cache' => [
+        'store_name' => null,
+        'duration_in_seconds' => CarbonInterval::week()->totalSeconds,
+    ],
+    'ipv6_servers_cache' => [
+        'store_name' => null,
+        'duration_in_seconds' => CarbonInterval::week()->totalSeconds,
+    ],
 
     /*
      * RDAP seem to be a bit unreliable when responding to domain queries.
