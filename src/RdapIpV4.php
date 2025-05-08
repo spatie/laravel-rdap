@@ -3,6 +3,8 @@
 namespace Spatie\Rdap;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Symfony\Component\HttpFoundation\IpUtils;
+
 class RdapIpV4
 {
     protected $serverJson = 'https://data.iana.org/rdap/ipv4.json';
