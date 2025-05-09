@@ -13,6 +13,14 @@ return [
         'store_name' => null,
         'duration_in_seconds' => CarbonInterval::week()->totalSeconds,
     ],
+    'ipv4_servers_cache' => [
+        'store_name' => null,
+        'duration_in_seconds' => CarbonInterval::week()->totalSeconds,
+    ],
+    'ipv6_servers_cache' => [
+        'store_name' => null,
+        'duration_in_seconds' => CarbonInterval::week()->totalSeconds,
+    ],
 
     /*
      * RDAP seem to be a bit unreliable when responding to domain queries.
@@ -32,5 +40,19 @@ return [
          * The time between attempts
          */
         'sleep_in_milliseconds_between_retries' => 1000,
+    ],
+    "ip_queries" => [
+        /*
+         * How long we should wait per attempt to get a response
+         */
+        "timeout_in_seconds" => 5,
+        /*
+         * How many times we should attempt getting a response
+         */
+        "retry_times" => 3,
+        /*
+         * The time between attempts
+         */
+        "sleep_in_milliseconds_between_retries" => 1000,
     ],
 ];

@@ -68,6 +68,20 @@ return [
          */
         'sleep_in_milliseconds_between_retries' => 1000,
     ],
+    "ip_queries" => [
+        /*
+         * How long we should wait per attempt to get a response
+         */
+        "timeout_in_seconds" => 5,
+        /*
+         * How many times we should attempt getting a response
+         */
+        "retry_times" => 3,
+        /*
+         * The time between attempts
+         */
+        "sleep_in_milliseconds_between_retries" => 1000,
+    ],
 ];
 ```
 
@@ -173,6 +187,31 @@ Sometimes RDAP servers return with an invalid response. If that happens, a `Spat
 
 Both exceptions implement `Spatie\Rdap\Exceptions\RdapException`. You can catch that exception to handle both cases.
 
+## Perform an IP query
+
+To get information about an IP, call ip().
+
+```php
+use Spatie\Rdap\Facades\Rdap;
+$ip = Rdap::ip("127.0.0.1"); // returns an instance of `Spatie\Rdap\Responses\IpResponse
+````
+### Get various Dates from the IpRespones
+
+On an instance of `IpResponse` you can call various methods to fetch various dates. All of these methods return an instance of `Carbon\Carbon`.
+
+```php
+$ip->registrationDate();
+$ip->expirationDate();
+$ip->lastChangedDate();
+$ip->lastUpdateOfRdapDb();
+```
+## Getting a specific IP property
+
+Similar to domain, you may call ->get() to get a specific property.
+```php
+$ip->get("objectClassName"); // returns ip network
+```
+
 ## Working with RDAP DNS
 
 For each TLD a specific server is used to respond to domain queries. Such a server is called a "DNS server". The official list of all RDAP DNS server is available as JSON [here](https://data.iana.org/rdap/dns.json).
@@ -208,7 +247,20 @@ To get a list of all supported TLDs, call `supportedTlds`.
 ```php
 $rdapDns->supportedTlds(); // returns an array with all supported TLDs
 ```
+### Working with IPv4/IPv6 registries
 
+Similar to RdapDns you may call getAllIPServers() to see all registries.
+```php
+use Spatie\Rdap\RdapIpV4;
+$ipv4 = new RdapIpV4();
+$ipv4->getAllIPServers(); // returns array<int, array<int, string>>
+```
+To find the server for an IP you may call getServerForIP().
+```php
+use Spatie\Rdap\RdapIpV4;
+$ipv4 = new RdapIpV4();
+$ipv4->getServerForIP("216.58.207.206"); // returns "https://rdap.arin.net/registry/"
+```
 ## Testing
 
 ```bash

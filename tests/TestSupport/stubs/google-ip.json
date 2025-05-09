@@ -1,0 +1,397 @@
+{
+    "rdapConformance": [
+      "nro_rdap_profile_0",
+      "rdap_level_0",
+      "cidr0",
+      "arin_originas0"
+    ],
+    "notices": [
+      {
+        "title": "Terms of Service",
+        "description": [
+          "By using the ARIN RDAP/Whois service, you are agreeing to the RDAP/Whois Terms of Use"
+        ],
+        "links": [
+          {
+            "value": "https://rdap.arin.net/registry/ip/216.58.207.206",
+            "rel": "terms-of-service",
+            "type": "text/html",
+            "href": "https://www.arin.net/resources/registry/whois/tou/"
+          }
+        ]
+      },
+      {
+        "title": "Whois Inaccuracy Reporting",
+        "description": [
+          "If you see inaccuracies in the results, please visit: "
+        ],
+        "links": [
+          {
+            "value": "https://rdap.arin.net/registry/ip/216.58.207.206",
+            "rel": "inaccuracy-report",
+            "type": "text/html",
+            "href": "https://www.arin.net/resources/registry/whois/inaccuracy_reporting/"
+          }
+        ]
+      },
+      {
+        "title": "Copyright Notice",
+        "description": [
+          "Copyright 1997-2025, American Registry for Internet Numbers, Ltd."
+        ]
+      }
+    ],
+    "handle": "NET-216-58-192-0-1",
+    "startAddress": "216.58.192.0",
+    "endAddress": "216.58.223.255",
+    "ipVersion": "v4",
+    "name": "GOOGLE",
+    "type": "DIRECT ALLOCATION",
+    "parentHandle": "NET-216-0-0-0-0",
+    "events": [
+        {
+            "eventAction": "registration",
+            "eventDate": "1997-09-15T04:00:00Z"
+        },
+        {
+            "eventAction": "expiration",
+            "eventDate": "2028-09-14T04:00:00Z"
+        },
+        {
+            "eventAction": "last changed",
+            "eventDate": "2019-09-09T15:39:04Z"
+        },
+        {
+            "eventAction": "last update of RDAP database",
+            "eventDate": "2022-05-13T10:21:22Z"
+        }
+    ],
+    "links": [
+      {
+        "value": "https://rdap.arin.net/registry/ip/216.58.207.206",
+        "rel": "self",
+        "type": "application/rdap+json",
+        "href": "https://rdap.arin.net/registry/ip/216.58.192.0"
+      },
+      {
+        "value": "https://rdap.arin.net/registry/ip/216.58.207.206",
+        "rel": "alternate",
+        "type": "application/xml",
+        "href": "https://whois.arin.net/rest/net/NET-216-58-192-0-1"
+      }
+    ],
+    "entities": [
+      {
+        "handle": "GOGL",
+        "vcardArray": [
+          "vcard",
+          [
+            [
+              "version",
+              {},
+              "text",
+              "4.0"
+            ],
+            [
+              "fn",
+              {},
+              "text",
+              "Google LLC"
+            ],
+            [
+              "adr",
+              {
+                "label": "1600 Amphitheatre Parkway\nMountain View\nCA\n94043\nUnited States"
+              },
+              "text",
+              [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                ""
+              ]
+            ],
+            [
+              "kind",
+              {},
+              "text",
+              "org"
+            ]
+          ]
+        ],
+        "roles": [
+          "registrant"
+        ],
+        "remarks": [
+          {
+            "title": "Registration Comments",
+            "description": [
+              "Please note that the recommended way to file abuse complaints are located in the following links. ",
+              "",
+              "To report abuse and illegal activity: https://www.google.com/contact/",
+              "",
+              "For legal requests: http://support.google.com/legal ",
+              "",
+              "Regards, ",
+              "The Google Team"
+            ]
+          }
+        ],
+        "links": [
+          {
+            "value": "https://rdap.arin.net/registry/ip/216.58.207.206",
+            "rel": "self",
+            "type": "application/rdap+json",
+            "href": "https://rdap.arin.net/registry/entity/GOGL"
+          },
+          {
+            "value": "https://rdap.arin.net/registry/ip/216.58.207.206",
+            "rel": "alternate",
+            "type": "application/xml",
+            "href": "https://whois.arin.net/rest/org/GOGL"
+          }
+        ],
+        "events": [
+          {
+            "eventAction": "last changed",
+            "eventDate": "2019-10-31T15:45:45-04:00"
+          },
+          {
+            "eventAction": "registration",
+            "eventDate": "2000-03-30T00:00:00-05:00"
+          }
+        ],
+        "entities": [
+          {
+            "handle": "ABUSE5250-ARIN",
+            "vcardArray": [
+              "vcard",
+              [
+                [
+                  "version",
+                  {},
+                  "text",
+                  "4.0"
+                ],
+                [
+                  "adr",
+                  {
+                    "label": "1600 Amphitheatre Parkway\nMountain View\nCA\n94043\nUnited States"
+                  },
+                  "text",
+                  [
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                  ]
+                ],
+                [
+                  "fn",
+                  {},
+                  "text",
+                  "Abuse"
+                ],
+                [
+                  "org",
+                  {},
+                  "text",
+                  "Abuse"
+                ],
+                [
+                  "kind",
+                  {},
+                  "text",
+                  "group"
+                ],
+                [
+                  "email",
+                  {},
+                  "text",
+                  "network-abuse@google.com"
+                ],
+                [
+                  "tel",
+                  {
+                    "type": [
+                      "work",
+                      "voice"
+                    ]
+                  },
+                  "text",
+                  "+1-650-253-0000"
+                ]
+              ]
+            ],
+            "roles": [
+              "abuse"
+            ],
+            "remarks": [
+              {
+                "title": "Registration Comments",
+                "description": [
+                  "Please note that the recommended way to file abuse complaints are located in the following links.",
+                  "",
+                  "To report abuse and illegal activity: https://www.google.com/contact/",
+                  "",
+                  "For legal requests: http://support.google.com/legal ",
+                  "",
+                  "Regards,",
+                  "The Google Team"
+                ]
+              }
+            ],
+            "links": [
+              {
+                "value": "https://rdap.arin.net/registry/ip/216.58.207.206",
+                "rel": "self",
+                "type": "application/rdap+json",
+                "href": "https://rdap.arin.net/registry/entity/ABUSE5250-ARIN"
+              },
+              {
+                "value": "https://rdap.arin.net/registry/ip/216.58.207.206",
+                "rel": "alternate",
+                "type": "application/xml",
+                "href": "https://whois.arin.net/rest/poc/ABUSE5250-ARIN"
+              }
+            ],
+            "events": [
+              {
+                "eventAction": "last changed",
+                "eventDate": "2024-08-01T17:54:23-04:00"
+              },
+              {
+                "eventAction": "registration",
+                "eventDate": "2015-11-06T15:36:35-05:00"
+              }
+            ],
+            "status": [
+              "validated"
+            ],
+            "port43": "whois.arin.net",
+            "objectClassName": "entity"
+          },
+          {
+            "handle": "ZG39-ARIN",
+            "vcardArray": [
+              "vcard",
+              [
+                [
+                  "version",
+                  {},
+                  "text",
+                  "4.0"
+                ],
+                [
+                  "adr",
+                  {
+                    "label": "1600 Amphitheatre Parkway\nMountain View\nCA\n94043\nUnited States"
+                  },
+                  "text",
+                  [
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                  ]
+                ],
+                [
+                  "fn",
+                  {},
+                  "text",
+                  "Google LLC"
+                ],
+                [
+                  "org",
+                  {},
+                  "text",
+                  "Google LLC"
+                ],
+                [
+                  "kind",
+                  {},
+                  "text",
+                  "group"
+                ],
+                [
+                  "email",
+                  {},
+                  "text",
+                  "arin-contact@google.com"
+                ],
+                [
+                  "tel",
+                  {
+                    "type": [
+                      "work",
+                      "voice"
+                    ]
+                  },
+                  "text",
+                  "+1-650-253-0000"
+                ]
+              ]
+            ],
+            "roles": [
+              "administrative",
+              "technical"
+            ],
+            "links": [
+              {
+                "value": "https://rdap.arin.net/registry/ip/216.58.207.206",
+                "rel": "self",
+                "type": "application/rdap+json",
+                "href": "https://rdap.arin.net/registry/entity/ZG39-ARIN"
+              },
+              {
+                "value": "https://rdap.arin.net/registry/ip/216.58.207.206",
+                "rel": "alternate",
+                "type": "application/xml",
+                "href": "https://whois.arin.net/rest/poc/ZG39-ARIN"
+              }
+            ],
+            "events": [
+              {
+                "eventAction": "last changed",
+                "eventDate": "2024-11-11T04:27:09-05:00"
+              },
+              {
+                "eventAction": "registration",
+                "eventDate": "2000-11-30T13:54:08-05:00"
+              }
+            ],
+            "status": [
+              "validated"
+            ],
+            "port43": "whois.arin.net",
+            "objectClassName": "entity"
+          }
+        ],
+        "port43": "whois.arin.net",
+        "objectClassName": "entity"
+      }
+    ],
+    "port43": "whois.arin.net",
+    "status": [
+      "active"
+    ],
+    "objectClassName": "ip network",
+    "cidr0_cidrs": [
+      {
+        "v4prefix": "216.58.192.0",
+        "length": 19
+      }
+    ],
+    "arin_originas0_originautnums": [
+      15169
+    ]
+  }
