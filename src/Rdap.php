@@ -5,6 +5,8 @@ namespace Spatie\Rdap;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
+use Spatie\Rdap\Enums\IpVersion;
+use Spatie\Rdap\Exceptions\InvalidIpException;
 use Spatie\Rdap\Exceptions\InvalidRdapResponse;
 use Spatie\Rdap\Exceptions\RdapRequestTimedOut;
 use Spatie\Rdap\Responses\DomainResponse;
@@ -65,20 +67,23 @@ class Rdap
         ?int $retryTimes = null,
         ?int $sleepInMillisecondsBetweenRetries = null
     ): ?IpResponse {
-        $ipAndVersion = $this->getIpAndVersion($ip);
-        if (!$ipAndVersion) {
-            throw new \InvalidArgumentException("Invalid IP address: {$ip}");
+        $ipVersion = $this->getIpAndVersion($ip);
+        if (!$ipVersion) {
+            throw InvalidIpException::make($ip);
         }
-        if ($ipAndVersion["version"] === "ipv4") {
-            $ipServer = $this->rdapIpV4->getServerForIP($ipAndVersion["ip"]);
+
+        if ($ipVersion === IpVersion::IpV4) {
+            $ipServer = $this->rdapIpV4->getServerForIp($ip);
         } 
-        if($ipAndVersion["version"] === "ipv6") {
-            $ipServer = $this->rdapIpV6->getServerForIP($ipAndVersion["ip"]);
+
+        if($ipVersion === IpVersion::IpV6) {
+            $ipServer = $this->rdapIpV6->getServerForIp($ip);
         }
         
         if (!$ipServer) {
             throw CouldNotFindRdapServer::forIp($ip);
         }
+
         $url = "{$ipServer}ip/{$ip}";
         
         $timeoutInSeconds ??= config("rdap.ip_queries.timeout_in_seconds");
@@ -135,16 +140,17 @@ class Rdap
     {
         return $this->dns()->supportedTlds();
     }
-    private function getIpAndVersion(string $ip): ?array
+    protected function getIpAndVersion(string $ip): ?IpVersion
     {
         $ipV4 = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
-        if (!$ipV4) {
-            $ipV6 = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
-            if (!$ipV6) {
-                return null;
-            }
-            return ["ip" => $ipV6, "version" => "ipv6"];
+        if($ipV4){
+            return IpVersion::IpV4;
         }
-        return ["ip" => $ipV4, "version" => "ipv4"];
+
+        $ipV6 = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
+        if($ipV6){
+            return IpVersion::IpV6;
+        }
+        return null;
     }
 }

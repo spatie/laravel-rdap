@@ -16,20 +16,23 @@ class RdapIpV4
         $this->cacheTtl ??= config('ipv4_servers_cache.duration_in_seconds');
     }
 
-    public function getServerForIP(string $ip): ?string
+    public function getServerForIp(string $ip): ?string
     {
-        $ipServerProperties = collect($this->getAllIPServers())->first(
+        $ipServerProperties = collect($this->getAllIpServers())->first(
             function ($registries) use ($ip) {
                 return IpUtils::checkIp($ip, $registries[0]);
             }
         );
+
         if (!$ipServerProperties) {
             return null;
         }
+
         $servers = $ipServerProperties[1];
+        
         return $servers[0] ?? null;
     }
-    public function getAllIPServers(): array
+    public function getAllIpServers(): array
     {
         return Cache::store($this->cacheStoreName)->remember(
             "laravel-rdap-ipv4-servers",

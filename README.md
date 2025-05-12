@@ -253,13 +253,13 @@ Similar to RdapDns you may call getAllIPServers() to see all registries.
 ```php
 use Spatie\Rdap\RdapIpV4;
 $ipv4 = new RdapIpV4();
-$ipv4->getAllIPServers(); // returns array<int, array<int, string>>
+$ipv4->getAllIpServers(); // returns array<int, array<int, string>>
 ```
 To find the server for an IP you may call getServerForIP().
 ```php
 use Spatie\Rdap\RdapIpV4;
 $ipv4 = new RdapIpV4();
-$ipv4->getServerForIP("216.58.207.206"); // returns "https://rdap.arin.net/registry/"
+$ipv4->getServerForIp("216.58.207.206"); // returns "https://rdap.arin.net/registry/"
 ```
 ## Testing
 
