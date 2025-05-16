@@ -195,7 +195,8 @@ To get information about an IP, call ip().
 use Spatie\Rdap\Facades\Rdap;
 $ip = Rdap::ip("127.0.0.1"); // returns an instance of `Spatie\Rdap\Responses\IpResponse
 ````
-### Get various Dates from the IpRespones
+
+### Get various dates from the IpRespones
 
 On an instance of `IpResponse` you can call various methods to fetch various dates. All of these methods return an instance of `Carbon\Carbon`.
 
