@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\CarbonInterval;
+use Spatie\Rdap\Enums\IpVersion;
 
 return [
     /*
@@ -55,4 +56,9 @@ return [
          */
         "sleep_in_milliseconds_between_retries" => 1000,
     ],
+
+    /**
+     * The default IP version to use when no IpVersion is specified for RdapIp.
+     */
+    "default_ip_version" => IpVersion::IpV4,
 ];

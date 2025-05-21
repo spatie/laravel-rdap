@@ -14,7 +14,7 @@ use Spatie\Rdap\Responses\IpResponse;
 
 class Rdap
 {
-    public function __construct(protected RdapDns $rdapDns, protected ?RdapIpV4 $rdapIpV4, protected ?RdapIpV6 $rdapIpV6)
+    public function __construct(protected RdapDns $rdapDns, protected ?RdapIp $rdapIp)
     {
     }
     
@@ -72,14 +72,11 @@ class Rdap
             throw InvalidIpException::make($ip);
         }
 
-        if ($ipVersion === IpVersion::IpV4) {
-            $ipServer = $this->rdapIpV4->getServerForIp($ip);
-        } 
-
-        if($ipVersion === IpVersion::IpV6) {
-            $ipServer = $this->rdapIpV6->getServerForIp($ip);
+        if(!isset($this->rdapIp)){
+            $this->rdapIp = new RdapIp($ipVersion);
         }
-        
+
+        $ipServer = $this->rdapIp->getServerForIp($ip);
         if (!$ipServer) {
             throw CouldNotFindRdapServer::forIp($ip);
         }
@@ -126,20 +123,17 @@ class Rdap
     {
         return $this->rdapDns;
     }
-    public function ipv4(): RdapIpV4
+
+    public function rdapIp(): RdapIp
     {
-        return $this->rdapIpV4;
-    }
-    public function ipv6(): RdapIpV6
-    {
-        return $this->rdapIpV6;
-    }
-    
+        return $this->rdapIp;
+    }    
 
     public function supportedTlds(): array
     {
         return $this->dns()->supportedTlds();
     }
+
     protected function getIpAndVersion(string $ip): ?IpVersion
     {
         $ipV4 = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
