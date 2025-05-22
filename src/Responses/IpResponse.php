@@ -1,5 +1,7 @@
 <?php
+
 namespace Spatie\Rdap\Responses;
+
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Spatie\Rdap\Enums\EventAction;
@@ -9,7 +11,9 @@ class IpResponse
     /**
      * @param  array<mixed, mixed>  $responseProperties
      */
-    public function __construct(protected array $responseProperties) {}
+    public function __construct(protected array $responseProperties)
+    {
+    }
 
     /**
      * @return array<mixed, mixed>

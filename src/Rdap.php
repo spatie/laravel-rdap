@@ -17,7 +17,6 @@ class Rdap
     public function __construct(protected RdapDns $rdapDns, protected ?RdapIp $rdapIp)
     {
     }
-    
 
     public function domain(
         string $domain,
@@ -68,26 +67,27 @@ class Rdap
         ?int $sleepInMillisecondsBetweenRetries = null
     ): ?IpResponse {
         $ipVersion = $this->getIpAndVersion($ip);
-        if (!$ipVersion) {
+        if (! $ipVersion) {
             throw InvalidIpException::make($ip);
         }
 
-        if(!isset($this->rdapIp)){
+        if (! isset($this->rdapIp)) {
             $this->rdapIp = new RdapIp($ipVersion);
         }
 
         $ipServer = $this->rdapIp->getServerForIp($ip);
-        if (!$ipServer) {
+        if (! $ipServer) {
             throw CouldNotFindRdapServer::forIp($ip);
         }
 
         $url = "{$ipServer}ip/{$ip}";
-        
+
         $timeoutInSeconds ??= config("rdap.ip_queries.timeout_in_seconds");
         $retryTimes ??= config("rdap.ip_queries.retry_times");
         $sleepInMillisecondsBetweenRetries ??= config(
             "rdap.ip_queries.sleep_in_milliseconds_between_retries"
         );
+
         try {
             $response = Http::timeout($timeoutInSeconds)
                 ->retry(
@@ -127,7 +127,7 @@ class Rdap
     public function rdapIp(): RdapIp
     {
         return $this->rdapIp;
-    }    
+    }
 
     public function supportedTlds(): array
     {
@@ -137,14 +137,15 @@ class Rdap
     protected function getIpAndVersion(string $ip): ?IpVersion
     {
         $ipV4 = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
-        if($ipV4){
+        if ($ipV4) {
             return IpVersion::IpV4;
         }
 
         $ipV6 = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6);
-        if($ipV6){
+        if ($ipV6) {
             return IpVersion::IpV6;
         }
+
         return null;
     }
 }

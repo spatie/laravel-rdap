@@ -2,9 +2,9 @@
 
 namespace Spatie\Rdap;
 
-use Spatie\Rdap\Enums\IpVersion;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Spatie\Rdap\Enums\IpVersion;
 use Symfony\Component\HttpFoundation\IpUtils;
 
 class RdapIp
@@ -27,7 +27,7 @@ class RdapIp
             }
         );
 
-        if (!$ipServerProperties) {
+        if (! $ipServerProperties) {
             return null;
         }
 
@@ -44,7 +44,7 @@ class RdapIp
             function () {
                 return retry(
                     times: 3,
-                    callback: fn() => Http::get(
+                    callback: fn () => Http::get(
                         $this->serverJson . $this->ipVersion->value . '.json'
                     )->json("services"),
                     sleepMilliseconds: 1000
