@@ -2,14 +2,30 @@
 
 use Illuminate\Support\Facades\Http;
 use Spatie\Rdap\CouldNotFindRdapServer;
+use Spatie\Rdap\Exceptions\InvalidIpException;
 use Spatie\Rdap\Exceptions\InvalidRdapResponse;
 use Spatie\Rdap\Exceptions\RdapRequestTimedOut;
 use Spatie\Rdap\Rdap;
 use Spatie\Rdap\Responses\DomainResponse;
+use Spatie\Rdap\Responses\IpResponse;
 
 beforeEach(function () {
     $this->rdap = app(Rdap::class);
 });
+
+it('can fetch info for an ip', function(){
+    $response = $this->rdap->ip('216.58.207.206');
+    expect($response)->toBeInstanceOf(IpResponse::class);
+});
+
+it('throws CouldNotFindRdapServer if no server for ip', function(){
+    $this->rdap->ip('a123:4567:8901:2345:6789:abcd:ef01:2345');
+    
+})->throws(CouldNotFindRdapServer::class);
+
+it("throws InvalidArgumentException if IP is not valid", function (){
+    $this->rdap->ip("not-an-ip-address");
+})->throws(InvalidIpException::class);
 
 it('can fetch info for a domain', function () {
     $response = $this->rdap->domain('google.com');
