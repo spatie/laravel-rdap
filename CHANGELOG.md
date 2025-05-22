@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.2.0 - 2025-05-22
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.3.0 to 2.4.0 by @dependabot in https://github.com/spatie/laravel-rdap/pull/42
+* Add IP lookup functionality by @bso-AL in https://github.com/spatie/laravel-rdap/pull/41
+
+### New Contributors
+
+* @bso-AL made their first contribution in https://github.com/spatie/laravel-rdap/pull/41
+
+**Full Changelog**: https://github.com/spatie/laravel-rdap/compare/1.1.2...1.2.0
+
 ## 1.1.2 - 2025-05-04
 
 ### What's Changed
