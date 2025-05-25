@@ -17,8 +17,7 @@ class Rdap
     public function __construct(
         protected RdapDns $rdapDns,
         protected ?RdapIp $rdapIp = null,
-    )
-    {
+    ) {
     }
 
     public function domain(
