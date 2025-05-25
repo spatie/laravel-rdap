@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.2.1 - 2025-05-25
+
+- fix breaking change
+
 ## 1.2.0 - 2025-05-22
 
 ### What's Changed
