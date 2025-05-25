@@ -14,7 +14,10 @@ use Spatie\Rdap\Responses\IpResponse;
 
 class Rdap
 {
-    public function __construct(protected RdapDns $rdapDns, protected ?RdapIp $rdapIp)
+    public function __construct(
+        protected RdapDns $rdapDns,
+        protected ?RdapIp $rdapIp = null,
+    )
     {
     }
 
