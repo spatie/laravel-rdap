@@ -13,9 +13,9 @@ class RdapDns
         protected ?string $cacheStoreName = null,
         protected ?int $cacheTtl = null
     ) {
-        $this->cacheStoreName ??= config('tld_servers_cache.store_name') ?? config('cache.default');
+        $this->cacheStoreName ??= config('rdap.tld_servers_cache.store_name') ?? config('cache.default');
 
-        $this->cacheTtl ??= config('tld_servers_cache.duration_in_seconds');
+        $this->cacheTtl ??= config('rdap.tld_servers_cache.duration_in_seconds');
     }
 
     public function getServerForDomain(string $domain): ?string

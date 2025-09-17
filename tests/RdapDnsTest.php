@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Cache;
 use Spatie\Rdap\RdapDns;
 
 beforeEach(function () {
@@ -27,4 +28,28 @@ it('will return null for a non-supported domain', function () {
 it('can return all supported tlds', function () {
     expect($this->rdapDns->supportedTlds())->toHaveCountGreaterThan(100);
     expect($this->rdapDns->supportedTlds()[0])->toBe('aaa');
+});
+
+it('uses rdap config namespace for cache settings', function () {
+    config([
+        'cache.default' => 'redis',
+        'rdap.tld_servers_cache.store_name' => 'array',
+        'rdap.tld_servers_cache.duration_in_seconds' => 123,
+    ]);
+
+    Cache::shouldReceive('store')
+        ->once()
+        ->with('array')
+        ->andReturnSelf();
+
+    Cache::shouldReceive('remember')
+        ->once()
+        ->with(
+            'laravel-rdap-servers',
+            123,
+            \Mockery::on(fn ($callback) => $callback instanceof \Closure)
+        )
+        ->andReturn([]);
+
+    (new RdapDns())->getAllServers();
 });
