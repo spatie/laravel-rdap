@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.3.0 - 2025-09-19
+
+### What's Changed
+
+* Update issue template by @AlexVanderbist in https://github.com/spatie/laravel-rdap/pull/45
+* Cache domain responses by @allnetru in https://github.com/spatie/laravel-rdap/pull/47
+* Bump actions/checkout from 3 to 5 by @dependabot[bot] in https://github.com/spatie/laravel-rdap/pull/44
+* Bump stefanzweifel/git-auto-commit-action from 4 to 6 by @dependabot[bot] in https://github.com/spatie/laravel-rdap/pull/43
+
+### New Contributors
+
+* @AlexVanderbist made their first contribution in https://github.com/spatie/laravel-rdap/pull/45
+* @allnetru made their first contribution in https://github.com/spatie/laravel-rdap/pull/47
+
+**Full Changelog**: https://github.com/spatie/laravel-rdap/compare/1.2.1...1.3.0
+
 ## 1.2.1 - 2025-05-25
 
 - fix breaking change
