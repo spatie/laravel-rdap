@@ -1,11 +1,14 @@
 <?php
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Spatie\Rdap\CouldNotFindRdapServer;
 use Spatie\Rdap\Exceptions\InvalidIpException;
 use Spatie\Rdap\Exceptions\InvalidRdapResponse;
 use Spatie\Rdap\Exceptions\RdapRequestTimedOut;
 use Spatie\Rdap\Rdap;
+use Spatie\Rdap\RdapDns;
+use Spatie\Rdap\RdapIp;
 use Spatie\Rdap\Responses\DomainResponse;
 use Spatie\Rdap\Responses\IpResponse;
 
@@ -84,4 +87,92 @@ it('throws a invalid response exception if rdap servers returns invalid response
     } catch (InvalidRdapResponse $invalidResponse) {
         expect($invalidResponse)->toBeInstanceOf(InvalidRdapResponse::class);
     }
+});
+
+it('uses configured cache for domain queries', function () {
+    config([
+        'cache.default' => 'redis',
+        'rdap.domain_queries.cache.store_name' => 'array',
+        'rdap.domain_queries.cache.duration_in_seconds' => 456,
+    ]);
+
+    $rdapDns = \Mockery::mock(RdapDns::class);
+    $rdapDns->shouldReceive('getServerForDomain')
+        ->once()
+        ->with('example.com')
+        ->andReturn('https://rdap.test/');
+
+    Http::fake([
+        'https://rdap.test/*' => Http::response([
+            'objectClassName' => 'domain',
+            'events' => [],
+        ]),
+    ]);
+
+    Cache::shouldReceive('store')
+        ->once()
+        ->with('array')
+        ->andReturnSelf();
+
+    Cache::shouldReceive('remember')
+        ->once()
+        ->with(
+            'laravel-rdap-domain-example.com',
+            456,
+            \Mockery::on(fn ($callback) => $callback instanceof \Closure)
+        )
+        ->andReturnUsing(function ($key, $ttl, $callback) {
+            return $callback();
+        });
+
+    $rdap = new Rdap($rdapDns);
+
+    $response = $rdap->domain('example.com');
+
+    expect($response)->toBeInstanceOf(DomainResponse::class);
+});
+
+it('uses configured cache for ip queries', function () {
+    config([
+        'cache.default' => 'array',
+        'rdap.ip_queries.cache.store_name' => 'redis',
+        'rdap.ip_queries.cache.duration_in_seconds' => 789,
+    ]);
+
+    $rdapDns = \Mockery::mock(RdapDns::class);
+
+    $rdapIp = \Mockery::mock(RdapIp::class);
+    $rdapIp->shouldReceive('getServerForIp')
+        ->once()
+        ->with('216.58.207.206')
+        ->andReturn('https://rdap-ip.test/');
+
+    Http::fake([
+        'https://rdap-ip.test/*' => Http::response([
+            'objectClassName' => 'ip network',
+            'events' => [],
+        ]),
+    ]);
+
+    Cache::shouldReceive('store')
+        ->once()
+        ->with('redis')
+        ->andReturnSelf();
+
+    Cache::shouldReceive('remember')
+        ->once()
+        ->with(
+            'laravel-rdap-ip-216.58.207.206',
+            789,
+            \Mockery::on(fn ($callback) => $callback instanceof \Closure)
+        )
+        ->andReturnUsing(function ($key, $ttl, $callback) {
+            return $callback();
+        });
+
+    $rdap = new Rdap($rdapDns, $rdapIp);
+
+    $response = $rdap->ip('216.58.207.206');
+
+    expect($response)->toBeInstanceOf(IpResponse::class);
 });

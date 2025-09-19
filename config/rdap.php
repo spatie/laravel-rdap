@@ -41,6 +41,13 @@ return [
          * The time between attempts
          */
         'sleep_in_milliseconds_between_retries' => 1000,
+        /*
+         * Configure caching for domain query responses. Set the duration to null to disable it.
+         */
+        'cache' => [
+            'store_name' => null,
+            'duration_in_seconds' => null,
+        ],
     ],
     "ip_queries" => [
         /*
@@ -55,6 +62,13 @@ return [
          * The time between attempts
          */
         "sleep_in_milliseconds_between_retries" => 1000,
+        /*
+         * Configure caching for IP query responses. Set the duration to null to disable it.
+         */
+        'cache' => [
+            'store_name' => null,
+            'duration_in_seconds' => null,
+        ],
     ],
 
     /**
