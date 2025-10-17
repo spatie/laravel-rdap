@@ -35,12 +35,17 @@ class Rdap
         ?int $timeoutInSeconds = null,
         ?int $retryTimes = null,
         ?int $sleepInMillisecondsBetweenRetries = null,
+        ?string $dnsServer = null,
     ): ?DomainResponse {
-        $dnsServer = $this->rdapDns->getServerForDomain($domain);
+        if ($dnsServer === null) {
+            $dnsServer = $this->rdapDns->getServerForDomain($domain);
+        }
 
         if (! $dnsServer) {
             throw CouldNotFindRdapServer::forDomain($domain);
         }
+
+        $dnsServer = rtrim($dnsServer, '/') . '/';
 
         $url = "{$dnsServer}domain/{$domain}";
 
