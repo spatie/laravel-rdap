@@ -118,6 +118,7 @@ $domain = Rdap::domain(
 ### Using custom RDAP servers
 
 You can specify a custom RDAP server instead of the default one by passing the dnsServer parameter. This is useful if you want to query a specific registry’s RDAP endpoint or test against a private server.
+
 ```php
 $domain = Rdap::domain(
    'google.com'
