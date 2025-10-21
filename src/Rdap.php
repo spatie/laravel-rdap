@@ -65,7 +65,7 @@ class Rdap
 
         return Cache::store($this->domainCacheStoreName)
             ->remember(
-                $this->domainCacheKey($domain),
+                $this->domainCacheKey($domain, $url),
                 $this->domainCacheTtl,
                 fn () => $this->performDomainQuery(
                     $url,
@@ -200,9 +200,9 @@ class Rdap
         return $this->domainCacheTtl !== null && $this->domainCacheTtl > 0;
     }
 
-    protected function domainCacheKey(string $domain): string
+    protected function domainCacheKey(string $domain, string $url): string
     {
-        return "laravel-rdap-domain-{$domain}";
+        return sprintf('laravel-rdap-domain-%s-%s', $domain, md5($url));
     }
 
     protected function performIpQuery(

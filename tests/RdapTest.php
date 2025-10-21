@@ -146,7 +146,7 @@ it('uses configured cache for domain queries', function () {
     Cache::shouldReceive('remember')
         ->once()
         ->with(
-            'laravel-rdap-domain-example.com',
+            'laravel-rdap-domain-example.com-' . md5('https://rdap.test/domain/example.com'),
             456,
             \Mockery::on(fn ($callback) => $callback instanceof \Closure)
         )
