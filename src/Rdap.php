@@ -35,12 +35,17 @@ class Rdap
         ?int $timeoutInSeconds = null,
         ?int $retryTimes = null,
         ?int $sleepInMillisecondsBetweenRetries = null,
+        ?string $dnsServer = null,
     ): ?DomainResponse {
-        $dnsServer = $this->rdapDns->getServerForDomain($domain);
+        if ($dnsServer === null) {
+            $dnsServer = $this->rdapDns->getServerForDomain($domain);
+        }
 
         if (! $dnsServer) {
             throw CouldNotFindRdapServer::forDomain($domain);
         }
+
+        $dnsServer = rtrim($dnsServer, '/') . '/';
 
         $url = "{$dnsServer}domain/{$domain}";
 
@@ -60,7 +65,7 @@ class Rdap
 
         return Cache::store($this->domainCacheStoreName)
             ->remember(
-                $this->domainCacheKey($domain),
+                $this->domainCacheKey($domain, $url),
                 $this->domainCacheTtl,
                 fn () => $this->performDomainQuery(
                     $url,
@@ -195,9 +200,9 @@ class Rdap
         return $this->domainCacheTtl !== null && $this->domainCacheTtl > 0;
     }
 
-    protected function domainCacheKey(string $domain): string
+    protected function domainCacheKey(string $domain, string $url): string
     {
-        return "laravel-rdap-domain-{$domain}";
+        return sprintf('laravel-rdap-domain-%s-%s', $domain, md5($url));
     }
 
     protected function performIpQuery(

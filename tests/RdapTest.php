@@ -89,6 +89,35 @@ it('throws a invalid response exception if rdap servers returns invalid response
     }
 });
 
+it('can fetch domain info from custom rdap server', function () {
+    Http::fake([
+        'https://registrar.example.com/rdap/*' => Http::response([
+            'objectClassName' => 'domain',
+            'ldhName' => 'example.com',
+            'events' => [],
+        ]),
+    ]);
+
+    $response = $this->rdap->domain('example.com', dnsServer: 'https://registrar.example.com/rdap');
+
+    expect($response)->toBeInstanceOf(DomainResponse::class);
+    expect($response->get('ldhName'))->toBe('example.com');
+});
+
+it('normalizes custom rdap server with trailing slash', function () {
+    Http::fake([
+        'https://custom.rdap.test/rdap/*' => Http::response([
+            'objectClassName' => 'domain',
+            'ldhName' => 'test.com',
+            'events' => [],
+        ]),
+    ]);
+
+    $response = $this->rdap->domain('test.com', dnsServer: 'https://custom.rdap.test/rdap');
+
+    expect($response)->toBeInstanceOf(DomainResponse::class);
+});
+
 it('uses configured cache for domain queries', function () {
     config([
         'cache.default' => 'redis',
@@ -117,7 +146,7 @@ it('uses configured cache for domain queries', function () {
     Cache::shouldReceive('remember')
         ->once()
         ->with(
-            'laravel-rdap-domain-example.com',
+            'laravel-rdap-domain-example.com-' . md5('https://rdap.test/domain/example.com'),
             456,
             \Mockery::on(fn ($callback) => $callback instanceof \Closure)
         )
