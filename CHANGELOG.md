@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.3.1 - 2025-10-22
+
+### What's Changed
+
+* Allow to set custom RDAP/DNS server by @adumskis in https://github.com/spatie/laravel-rdap/pull/49
+
+### New Contributors
+
+* @adumskis made their first contribution in https://github.com/spatie/laravel-rdap/pull/49
+
+**Full Changelog**: https://github.com/spatie/laravel-rdap/compare/1.3.0...1.3.1
+
 ## 1.3.0 - 2025-09-19
 
 ### What's Changed
