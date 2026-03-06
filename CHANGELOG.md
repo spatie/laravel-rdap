@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.4.0 - 2026-03-06
+
+### What's Changed
+
+- Laravel 13.x Compatibility
+
 ## 1.3.1 - 2025-10-22
 
 ### What's Changed
