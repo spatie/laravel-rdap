@@ -56,7 +56,7 @@ class DomainResponse
 
     protected function getEventDate(EventAction $eventAction): ?Carbon
     {
-        $events = $this->get('events');
+        $events = $this->get('events') ?? [];
 
         foreach ($events as $event) {
             if ($event['eventAction'] === $eventAction->value) {
