@@ -174,6 +174,7 @@ class Rdap
         try {
             $response = Http::timeout($timeoutInSeconds)
                 ->retry(times: $retryTimes, sleepMilliseconds: $sleepInMillisecondsBetweenRetries)
+                ->accept('application/rdap+json')
                 ->get($url)
                 ->json();
         } catch (RequestException $exception) {
@@ -218,6 +219,7 @@ class Rdap
                     times: $retryTimes,
                     sleepMilliseconds: $sleepInMillisecondsBetweenRetries
                 )
+                ->accept('application/rdap+json')
                 ->get($url)
                 ->json();
         } catch (RequestException $exception) {
