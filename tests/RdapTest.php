@@ -43,8 +43,15 @@ it('will return null for a non-existing domain', function () {
 });
 
 it('will throw an exception for a non-supported domain', function () {
-    $this->rdap->domain('flareapp.io');
+    $this->rdap->domain('spatie.be');
 })->throws(CouldNotFindRdapServer::class);
+
+it('can fetch info for a domain on a tld that is missing from the iana list', function () {
+    $response = $this->rdap->domain('google.io');
+
+    expect($response)->toBeInstanceOf(DomainResponse::class);
+    expect($response->get('ldhName'))->toBe('google.io');
+});
 
 it('can determine that a domain is supported', function () {
     expect($this->rdap->domainIsSupported('freek.dev'))->toBeTrue();

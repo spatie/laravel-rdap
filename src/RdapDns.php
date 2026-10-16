@@ -72,6 +72,25 @@ class RdapDns
 
     public function getAllServers(): array
     {
+        return [
+            ...$this->getAdditionalServers(),
+            ...$this->getIanaServers() ?? [],
+        ];
+    }
+
+    protected function getAdditionalServers(): array
+    {
+        return collect(config('rdap.additional_tld_servers', []))
+            ->map(fn (string $server, string $tld) => [
+                [strtolower(ltrim($tld, '.'))],
+                [$server],
+            ])
+            ->values()
+            ->toArray();
+    }
+
+    protected function getIanaServers(): ?array
+    {
         return Cache::store($this->cacheStoreName)->remember(
             'laravel-rdap-servers',
             $this->cacheTtl,
