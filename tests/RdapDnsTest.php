@@ -55,7 +55,17 @@ it('uses rdap config namespace for cache settings', function () {
     (new RdapDns())->getAllServers();
 });
 
+function fakeIanaServers(): void
+{
+    config(['rdap.tld_servers_cache.store_name' => 'array']);
+
+    Http::fake(['data.iana.org/*' => Http::response(['services' => [
+        [['com'], ['https://rdap.verisign.com/com/v1/']],
+    ]])]);
+}
+
 it('can determine the server to use for a tld from the additional servers', function () {
+    fakeIanaServers();
     config(['rdap.additional_tld_servers' => ['be' => 'https://rdap.example.be/']]);
 
     expect($this->rdapDns->getServerForTld('be'))->toBe('https://rdap.example.be/');
@@ -63,32 +73,31 @@ it('can determine the server to use for a tld from the additional servers', func
 });
 
 it('prefers the additional servers over the iana list', function () {
+    fakeIanaServers();
     config(['rdap.additional_tld_servers' => ['com' => 'https://rdap.example.com/']]);
 
     expect($this->rdapDns->getServerForDomain('example.com'))->toBe('https://rdap.example.com/');
 });
 
 it('normalizes the tlds of the additional servers', function () {
+    fakeIanaServers();
     config(['rdap.additional_tld_servers' => ['.BE' => 'https://rdap.example.be/']]);
 
     expect($this->rdapDns->getServerForDomain('example.be'))->toBe('https://rdap.example.be/');
 });
 
 it('includes the additional servers in the supported tlds', function () {
+    fakeIanaServers();
     config(['rdap.additional_tld_servers' => [
         'be' => 'https://rdap.example.be/',
         'com' => 'https://rdap.example.com/',
     ]]);
 
-    expect($this->rdapDns->supportedTlds())
-        ->toContain('be')
-        ->and(array_count_values($this->rdapDns->supportedTlds())['com'])->toBe(1);
+    expect($this->rdapDns->supportedTlds())->toBe(['be', 'com']);
 });
 
 it('uses the additional servers without refetching the iana list', function () {
-    Http::fake(['data.iana.org/*' => Http::response(['services' => [[['com'], ['https://rdap.verisign.com/com/v1/']]]])]);
-    Cache::store('array')->flush();
-    config(['rdap.tld_servers_cache.store_name' => 'array']);
+    fakeIanaServers();
 
     $rdapDns = new RdapDns();
     $rdapDns->getAllServers();
@@ -101,12 +110,24 @@ it('uses the additional servers without refetching the iana list', function () {
 });
 
 it('can be used without additional servers', function () {
+    fakeIanaServers();
     config(['rdap.additional_tld_servers' => []]);
 
     expect($this->rdapDns->getServerForDomain('example.io'))->toBeNull();
     expect($this->rdapDns->getServerForDomain('example.com'))->toBe('https://rdap.verisign.com/com/v1/');
 });
 
+it('can be used when the iana list could not be fetched', function () {
+    config(['rdap.tld_servers_cache.store_name' => 'array']);
+    Http::fake(['data.iana.org/*' => Http::response([])]);
+    config(['rdap.additional_tld_servers' => ['be' => 'https://rdap.example.be/']]);
+
+    expect($this->rdapDns->getServerForDomain('example.be'))->toBe('https://rdap.example.be/');
+    expect($this->rdapDns->getServerForDomain('example.com'))->toBeNull();
+});
+
 it('ships with servers for tlds that are missing from the iana list', function (string $domain) {
+    fakeIanaServers();
+
     expect($this->rdapDns->getServerForDomain($domain))->not->toBeNull();
 })->with(['example.io', 'example.co', 'example.me', 'example.us', 'example.ch']);
