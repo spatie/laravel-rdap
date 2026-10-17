@@ -43,14 +43,49 @@ it('will return null for a non-existing domain', function () {
 });
 
 it('will throw an exception for a non-supported domain', function () {
-    $this->rdap->domain('spatie.be');
+    Http::fake(['data.iana.org/*' => Http::response(['services' => []])]);
+
+    $this->rdap->domain('example.invalid');
 })->throws(CouldNotFindRdapServer::class);
 
 it('can fetch info for a domain on a tld that is missing from the iana list', function () {
+    Http::preventStrayRequests();
+    Http::fake([
+        'https://rdap.identitydigital.services/rdap/domain/google.io' => Http::response([
+            'objectClassName' => 'domain',
+            'ldhName' => 'google.io',
+        ]),
+    ]);
+
+    expect($this->rdap->domainIsSupported('google.io'))->toBeTrue();
+
     $response = $this->rdap->domain('google.io');
 
     expect($response)->toBeInstanceOf(DomainResponse::class);
     expect($response->get('ldhName'))->toBe('google.io');
+});
+
+it('returns null for a missing domain on an additional server', function () {
+    Http::preventStrayRequests();
+    Http::fake([
+        'https://rdap.identitydigital.services/rdap/domain/example.io' => Http::response(['errorCode' => 404], 404),
+    ]);
+
+    expect($this->rdap->domain('example.io', retryTimes: 1))->toBeNull();
+});
+
+it('prefers an explicit dns server over the configured additional server', function () {
+    Http::preventStrayRequests();
+    Http::fake([
+        'https://custom.rdap.test/domain/example.io' => Http::response([
+            'objectClassName' => 'domain',
+            'ldhName' => 'example.io',
+        ]),
+    ]);
+
+    $response = $this->rdap->domain('example.io', dnsServer: 'https://custom.rdap.test');
+
+    expect($response->get('ldhName'))->toBe('example.io');
 });
 
 it('can determine that a domain is supported', function () {

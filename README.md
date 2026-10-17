@@ -77,7 +77,7 @@ $domain = Rdap::domain(
 
 The package finds the RDAP server for a TLD in [IANA's bootstrap file](https://data.iana.org/rdap/dns.json). Some registries run an RDAP server but are not listed in that file, for example the ones for `.io`, `.co`, `.me`, `.us` and `.ch`. The `additional_tld_servers` key in the `rdap` config file maps those TLDs to their server, and the package ships with the ones we could verify.
 
-You can add a TLD, or override a server that IANA lists, by adding an entry. An entry takes precedence over IANA's list.
+You can add a TLD, or override a server that IANA lists, by adding an entry. An entry takes precedence over IANA's list and can be used even when IANA is unreachable. Use Punycode for internationalized TLDs.
 
 ```php
 // config/rdap.php
@@ -88,7 +88,7 @@ You can add a TLD, or override a server that IANA lists, by adding an entry. An 
 ],
 ```
 
-These servers are not listed by IANA, so a registry can move or remove them without notice. Set the key to an empty array to only use IANA's list.
+These servers are not listed by IANA, so a registry can move or remove them without notice. Set the key to an empty array to only use IANA's list. If your published config does not contain this key, the package supplies its defaults. If you define it, your array replaces the default list rather than merging individual TLDs.
 
 ### Get various dates
 

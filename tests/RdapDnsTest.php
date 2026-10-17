@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Spatie\Rdap\RdapDns;
+use Spatie\Rdap\RdapServiceProvider;
 
 beforeEach(function () {
     $this->rdapDns = new RdapDns();
@@ -77,6 +79,15 @@ it('prefers the additional servers over the iana list', function () {
     config(['rdap.additional_tld_servers' => ['com' => 'https://rdap.example.com/']]);
 
     expect($this->rdapDns->getServerForDomain('example.com'))->toBe('https://rdap.example.com/');
+    expect($this->rdapDns->getServerForTld('com'))->toBe('https://rdap.example.com/');
+});
+
+it('can use an additional server when iana is unreachable', function () {
+    Http::fake(fn () => throw new ConnectionException('IANA is unavailable'));
+    config(['rdap.additional_tld_servers' => ['be' => 'https://rdap.example.be/']]);
+
+    expect($this->rdapDns->getServerForDomain('example.be'))->toBe('https://rdap.example.be/');
+    expect($this->rdapDns->getServerForTld('be'))->toBe('https://rdap.example.be/');
 });
 
 it('normalizes the tlds of the additional servers', function () {
@@ -84,6 +95,8 @@ it('normalizes the tlds of the additional servers', function () {
     config(['rdap.additional_tld_servers' => ['.BE' => 'https://rdap.example.be/']]);
 
     expect($this->rdapDns->getServerForDomain('example.be'))->toBe('https://rdap.example.be/');
+    expect($this->rdapDns->getServerForTld('be'))->toBe('https://rdap.example.be/');
+    expect($this->rdapDns->getServerForDomain('example.notbe'))->toBeNull();
 });
 
 it('includes the additional servers in the supported tlds', function () {
@@ -117,7 +130,7 @@ it('can be used without additional servers', function () {
     expect($this->rdapDns->getServerForDomain('example.com'))->toBe('https://rdap.verisign.com/com/v1/');
 });
 
-it('can be used when the iana list could not be fetched', function () {
+it('can be used when the iana response has no services', function () {
     config(['rdap.tld_servers_cache.store_name' => 'array']);
     Http::fake(['data.iana.org/*' => Http::response([])]);
     config(['rdap.additional_tld_servers' => ['be' => 'https://rdap.example.be/']]);
@@ -130,4 +143,25 @@ it('ships with servers for tlds that are missing from the iana list', function (
     fakeIanaServers();
 
     expect($this->rdapDns->getServerForDomain($domain))->not->toBeNull();
-})->with(['example.io', 'example.co', 'example.me', 'example.us', 'example.ch']);
+})->with(['example.io', 'example.co', 'example.me', 'example.us', 'example.ch', 'example.xn--80ao21a']);
+
+it('merges additional server defaults into an older published config', function () {
+    config(['rdap' => [
+        'domain_queries' => ['timeout_in_seconds' => 42],
+    ]]);
+
+    (new RdapServiceProvider(app()))->register();
+
+    expect($this->rdapDns->getServerForTld('io'))->toBe('https://rdap.identitydigital.services/rdap/');
+    expect(config('rdap.domain_queries.timeout_in_seconds'))->toBe(42);
+});
+
+it('preserves an explicitly empty additional server config during registration', function () {
+    fakeIanaServers();
+    config(['rdap.additional_tld_servers' => []]);
+
+    (new RdapServiceProvider(app()))->register();
+
+    expect($this->rdapDns->getServerForTld('io'))->toBeNull();
+    expect($this->rdapDns->getServerForTld('com'))->toBe('https://rdap.verisign.com/com/v1/');
+});
