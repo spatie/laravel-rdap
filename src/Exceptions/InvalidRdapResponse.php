@@ -4,6 +4,7 @@ namespace Spatie\Rdap\Exceptions;
 
 use Exception;
 
+/** @phpstan-consistent-constructor */
 class InvalidRdapResponse extends Exception implements RdapException
 {
     public static function make(string $domain): self
