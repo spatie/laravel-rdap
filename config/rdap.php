@@ -16,9 +16,7 @@ return [
     ],
 
     /*
-     * Some registries run an RDAP server that IANA does not list in its bootstrap
-     * file. These servers are used for the TLDs below. An entry here takes
-     * precedence over IANA's list, so you can also use it to override a server.
+     * Additional RDAP servers. These take precedence over IANA's list.
      */
     'additional_tld_servers' => [
         'ac' => 'https://rdap.identitydigital.services/rdap/',

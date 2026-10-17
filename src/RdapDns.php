@@ -20,7 +20,7 @@ class RdapDns
 
     public function getServerForDomain(string $domain): ?string
     {
-        return $this->findServer(function (array $tldServerProperties) use ($domain) {
+        $server = $this->findServer(function (array $tldServerProperties) use ($domain) {
             $tlds = $tldServerProperties[0];
 
             foreach ($tlds as $tld) {
@@ -31,6 +31,8 @@ class RdapDns
 
             return false;
         });
+
+        return $server;
     }
 
     public function getServerForTld(string $searchingTld): ?string
