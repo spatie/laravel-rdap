@@ -20,42 +20,24 @@ class RdapDns
 
     public function getServerForDomain(string $domain): ?string
     {
-        $tldServerProperties = collect($this->getAllServers())
-            ->first(function (array $tldServerProperties) use ($domain) {
-                $tlds = $tldServerProperties[0];
+        $server = $this->findServer(function (array $tldServerProperties) use ($domain) {
+            $tlds = $tldServerProperties[0];
 
-                foreach ($tlds as $tld) {
-                    if (str_ends_with($domain, ".{$tld}")) {
-                        return true;
-                    }
+            foreach ($tlds as $tld) {
+                if (str_ends_with($domain, ".{$tld}")) {
+                    return true;
                 }
+            }
 
-                return false;
-            });
+            return false;
+        });
 
-        if (! $tldServerProperties) {
-            return null;
-        }
-
-        $servers = $tldServerProperties[1];
-
-        return $servers[0] ?? null;
+        return $server;
     }
 
     public function getServerForTld(string $searchingTld): ?string
     {
-        $tldServerProperties = collect($this->getAllServers())
-            ->first(function (array $tldServerProperties) use ($searchingTld) {
-                return in_array($searchingTld, $tldServerProperties[0]);
-            });
-
-        if (! $tldServerProperties) {
-            return null;
-        }
-
-        $servers = $tldServerProperties[1];
-
-        return $servers[0] ?? null;
+        return $this->findServer(fn (array $tldServerProperties) => in_array($searchingTld, $tldServerProperties[0]));
     }
 
     public function supportedTlds(): array
@@ -71,6 +53,33 @@ class RdapDns
     }
 
     public function getAllServers(): array
+    {
+        return [
+            ...$this->getAdditionalServers(),
+            ...($this->getIanaServers() ?? []),
+        ];
+    }
+
+    protected function findServer(callable $matches): ?string
+    {
+        $tldServerProperties = collect($this->getAdditionalServers())->first($matches)
+            ?? collect($this->getAllServers())->first($matches);
+
+        return $tldServerProperties[1][0] ?? null;
+    }
+
+    protected function getAdditionalServers(): array
+    {
+        return collect(config('rdap.additional_tld_servers', []))
+            ->map(fn (string $server, string $tld) => [
+                [strtolower(ltrim($tld, '.'))],
+                [$server],
+            ])
+            ->values()
+            ->toArray();
+    }
+
+    protected function getIanaServers(): ?array
     {
         return Cache::store($this->cacheStoreName)->remember(
             'laravel-rdap-servers',

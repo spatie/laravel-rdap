@@ -176,6 +176,7 @@ class Rdap
                 ->retry(times: $retryTimes, sleepMilliseconds: $sleepInMillisecondsBetweenRetries)
                 ->accept('application/rdap+json')
                 ->get($url)
+                ->throw()
                 ->json();
         } catch (RequestException $exception) {
             if ($exception->getCode() === 404) {

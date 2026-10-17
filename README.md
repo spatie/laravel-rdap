@@ -30,60 +30,7 @@ You can publish the config file with:
 php artisan vendor:publish --tag="rdap-config"
 ```
 
-This is the contents of the published config file:
-
-```php
-<?php
-
-use Carbon\CarbonInterval;
-
-return [
-    /*
-     * When making an RDAP query, we first have got to make a request to determine
-     *  the server responsible for the tld of the query. Here you can specify
-     * how long we should cache the server URLs.
-     */
-
-    'tld_servers_cache' => [
-        'store_name' => null,
-        'duration_in_seconds' => CarbonInterval::week()->totalSeconds,
-    ],
-
-    /*
-     * RDAP seem to be a bit unreliable when responding to domain queries. 
-     * We solve this by attempting a request to RDAP a couple of times 
-     * until we get a response.
-     */
-    'domain_queries' => [
-        /*
-         * How long we should wait per attempt to get a response
-         */
-        'timeout_in_seconds' => 5,
-        /*
-         * How many times we should attempt getting a response
-         */
-        'retry_times' => 3,
-        /*
-         * The time between attempts
-         */
-        'sleep_in_milliseconds_between_retries' => 1000,
-    ],
-    "ip_queries" => [
-        /*
-         * How long we should wait per attempt to get a response
-         */
-        "timeout_in_seconds" => 5,
-        /*
-         * How many times we should attempt getting a response
-         */
-        "retry_times" => 3,
-        /*
-         * The time between attempts
-         */
-        "sleep_in_milliseconds_between_retries" => 1000,
-    ],
-];
-```
+All options are documented in [the config file](https://github.com/spatie/laravel-rdap/blob/main/config/rdap.php).
 
 ## Usage
 
@@ -125,6 +72,23 @@ $domain = Rdap::domain(
    dnsServer: 'https://rdap.verisign.com/com/v1/',     
 );
 ````
+
+### Supporting TLDs that are missing from IANA's list
+
+The package finds the RDAP server for a TLD in [IANA's bootstrap file](https://data.iana.org/rdap/dns.json). Some registries run an RDAP server but are not listed in that file, for example the ones for `.io`, `.co`, `.me`, `.us` and `.ch`. The `additional_tld_servers` key in the `rdap` config file maps those TLDs to their server, and the package ships with the ones we could verify.
+
+You can add a TLD, or override a server that IANA lists, by adding an entry. An entry takes precedence over IANA's list and can be used even when IANA is unreachable. Use Punycode for internationalized TLDs.
+
+```php
+// config/rdap.php
+
+'additional_tld_servers' => [
+    'io' => 'https://rdap.identitydigital.services/rdap/',
+    // ...
+],
+```
+
+These servers are not listed by IANA, so a registry can move or remove them without notice. Set the key to an empty array to only use IANA's list. If your published config does not contain this key, the package supplies its defaults. If you define it, your array replaces the default list rather than merging individual TLDs.
 
 ### Get various dates
 

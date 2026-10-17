@@ -5,6 +5,7 @@ namespace Spatie\Rdap\Exceptions;
 use Exception;
 use Illuminate\Http\Client\ConnectionException;
 
+/** @phpstan-consistent-constructor */
 class RdapRequestTimedOut extends Exception implements RdapException
 {
     public static function make(string $domain, ConnectionException $exception): self
