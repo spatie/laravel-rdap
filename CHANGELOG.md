@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.5.0 - 2026-10-17
+
+### What's Changed
+
+* Support RDAP servers missing from IANA's bootstrap file, with 54 bundled TLD entries and a configurable `additional_tld_servers` map, by @mattiasgeniar in https://github.com/spatie/laravel-rdap/pull/60.
+* Resolve configured additional servers without requiring IANA to be reachable.
+* Return `null` for missing domains even when only one query attempt is configured.
+* Send the `application/rdap+json` Accept header with RDAP queries in https://github.com/spatie/laravel-rdap/pull/59.
+* Expand regression coverage, restore PHPStan checks, and document additional-server configuration and compatibility with existing published config files.
+
+**Full Changelog**: https://github.com/spatie/laravel-rdap/compare/1.4.2...1.5.0
+
 ## 1.4.2 - 2026-08-23
 
 ### What's Changed
