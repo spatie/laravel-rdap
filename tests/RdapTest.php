@@ -88,6 +88,41 @@ it('prefers an explicit dns server over the configured additional server', funct
     expect($response->get('ldhName'))->toBe('example.io');
 });
 
+it('accepts both rdap+json and plain json for domain queries', function () {
+    Http::preventStrayRequests();
+    Http::fake([
+        'https://custom.rdap.test/domain/example.sn' => Http::response([
+            'objectClassName' => 'domain',
+            'ldhName' => 'example.sn',
+        ]),
+    ]);
+
+    $this->rdap->domain('example.sn', dnsServer: 'https://custom.rdap.test');
+
+    Http::assertSent(fn ($request) => $request->hasHeader('Accept', 'application/rdap+json, application/json'));
+});
+
+it('accepts both rdap+json and plain json for ip queries', function () {
+    Http::preventStrayRequests();
+    Http::fake([
+        'https://rdap-ip.test/ip/216.58.207.206' => Http::response([
+            'objectClassName' => 'ip network',
+            'events' => [],
+        ]),
+    ]);
+
+    $rdapIp = \Mockery::mock(RdapIp::class);
+    $rdapIp->shouldReceive('getServerForIp')
+        ->with('216.58.207.206')
+        ->andReturn('https://rdap-ip.test/');
+
+    $rdap = new Rdap(app(RdapDns::class), $rdapIp);
+
+    $rdap->ip('216.58.207.206');
+
+    Http::assertSent(fn ($request) => $request->hasHeader('Accept', 'application/rdap+json, application/json'));
+});
+
 it('can determine that a domain is supported', function () {
     expect($this->rdap->domainIsSupported('freek.dev'))->toBeTrue();
 });

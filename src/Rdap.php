@@ -15,6 +15,8 @@ use Spatie\Rdap\Responses\IpResponse;
 
 class Rdap
 {
+    protected string $acceptHeader = 'application/rdap+json, application/json';
+
     public function __construct(
         protected RdapDns $rdapDns,
         protected ?RdapIp $rdapIp = null,
@@ -174,7 +176,7 @@ class Rdap
         try {
             $response = Http::timeout($timeoutInSeconds)
                 ->retry(times: $retryTimes, sleepMilliseconds: $sleepInMillisecondsBetweenRetries)
-                ->accept('application/rdap+json')
+                ->accept($this->acceptHeader)
                 ->get($url)
                 ->throw()
                 ->json();
@@ -220,7 +222,7 @@ class Rdap
                     times: $retryTimes,
                     sleepMilliseconds: $sleepInMillisecondsBetweenRetries
                 )
-                ->accept('application/rdap+json')
+                ->accept($this->acceptHeader)
                 ->get($url)
                 ->json();
         } catch (RequestException $exception) {
