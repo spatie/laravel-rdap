@@ -37,6 +37,8 @@ it('can fetch info for a domain', function () {
 });
 
 it('will return null for a non-existing domain', function () {
+    Http::fake(['rdap.verisign.com/*' => Http::response(status: 404)]);
+
     $response = $this->rdap->domain('this-domain-does-not-exist-for-sure.com');
 
     expect($response)->toBeNull();
@@ -153,18 +155,11 @@ it('could throw a time out exception if getting results takes too long', functio
 
 it('throws a invalid response exception if rdap servers returns invalid response', function () {
     Http::fake([
-        'rdap.nic.io/*' => Http::response('invalid response'),
+        'rdap.verisign.com/*' => Http::response('invalid response'),
     ]);
 
-    try {
-        $result = $this->rdap->domain('invalid-domain-response.com');
-
-        // sometimes it returns null
-        expect($result)->toBeNull();
-    } catch (InvalidRdapResponse $invalidResponse) {
-        expect($invalidResponse)->toBeInstanceOf(InvalidRdapResponse::class);
-    }
-});
+    $this->rdap->domain('invalid-domain-response.com');
+})->throws(InvalidRdapResponse::class);
 
 it('can fetch domain info from custom rdap server', function () {
     Http::fake([
