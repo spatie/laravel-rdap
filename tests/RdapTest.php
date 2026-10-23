@@ -37,6 +37,8 @@ it('can fetch info for a domain', function () {
 });
 
 it('will return null for a non-existing domain', function () {
+    Http::fake(['rdap.verisign.com/*' => Http::response(status: 404)]);
+
     $response = $this->rdap->domain('this-domain-does-not-exist-for-sure.com');
 
     expect($response)->toBeNull();
@@ -88,6 +90,41 @@ it('prefers an explicit dns server over the configured additional server', funct
     expect($response->get('ldhName'))->toBe('example.io');
 });
 
+it('accepts both rdap+json and plain json for domain queries', function () {
+    Http::preventStrayRequests();
+    Http::fake([
+        'https://custom.rdap.test/domain/example.sn' => Http::response([
+            'objectClassName' => 'domain',
+            'ldhName' => 'example.sn',
+        ]),
+    ]);
+
+    $this->rdap->domain('example.sn', dnsServer: 'https://custom.rdap.test');
+
+    Http::assertSent(fn ($request) => $request->hasHeader('Accept', 'application/rdap+json, application/json'));
+});
+
+it('accepts both rdap+json and plain json for ip queries', function () {
+    Http::preventStrayRequests();
+    Http::fake([
+        'https://rdap-ip.test/ip/216.58.207.206' => Http::response([
+            'objectClassName' => 'ip network',
+            'events' => [],
+        ]),
+    ]);
+
+    $rdapIp = \Mockery::mock(RdapIp::class);
+    $rdapIp->shouldReceive('getServerForIp')
+        ->with('216.58.207.206')
+        ->andReturn('https://rdap-ip.test/');
+
+    $rdap = new Rdap(app(RdapDns::class), $rdapIp);
+
+    $rdap->ip('216.58.207.206');
+
+    Http::assertSent(fn ($request) => $request->hasHeader('Accept', 'application/rdap+json, application/json'));
+});
+
 it('can determine that a domain is supported', function () {
     expect($this->rdap->domainIsSupported('freek.dev'))->toBeTrue();
 });
@@ -118,18 +155,11 @@ it('could throw a time out exception if getting results takes too long', functio
 
 it('throws a invalid response exception if rdap servers returns invalid response', function () {
     Http::fake([
-        'rdap.nic.io/*' => Http::response('invalid response'),
+        'rdap.verisign.com/*' => Http::response('invalid response'),
     ]);
 
-    try {
-        $result = $this->rdap->domain('invalid-domain-response.com');
-
-        // sometimes it returns null
-        expect($result)->toBeNull();
-    } catch (InvalidRdapResponse $invalidResponse) {
-        expect($invalidResponse)->toBeInstanceOf(InvalidRdapResponse::class);
-    }
-});
+    $this->rdap->domain('invalid-domain-response.com');
+})->throws(InvalidRdapResponse::class);
 
 it('can fetch domain info from custom rdap server', function () {
     Http::fake([
