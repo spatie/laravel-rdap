@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.5.1 - 2026-10-26
+
+### Fixed
+
+- Accept both application/rdap+json and application/json for domain and IP queries, allowing RDAP servers that require plain JSON responses. Thanks to @mattiasgeniar in https://github.com/spatie/laravel-rdap/pull/61.
+- Add regression coverage for both query types and deterministic missing-domain and invalid-response tests.
+
+No breaking changes.
+
+**Full Changelog**: https://github.com/spatie/laravel-rdap/compare/1.5.0...1.5.1
+
 ## 1.5.0 - 2026-10-17
 
 ### What's Changed
