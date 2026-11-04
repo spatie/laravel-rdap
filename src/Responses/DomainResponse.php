@@ -62,7 +62,7 @@ class DomainResponse
             if ($event['eventAction'] === $eventAction->value) {
                 $dateString = $event['eventDate'];
 
-                return Carbon::createFromTimeString($dateString);
+                return Carbon::parse($dateString);
             }
         }
 

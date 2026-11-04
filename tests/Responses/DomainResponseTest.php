@@ -48,3 +48,16 @@ it('can determine that a domain has a given status', function () {
     expect($this->domainResponse->hasStatus(DomainStatus::ClientTransferProhibited))->toBeTrue();
     expect($this->domainResponse->hasStatus('some unknown status'))->toBeFalse();
 });
+
+it('can get event dates that are date-only', function () {
+    $domainResponse = new DomainResponse([
+        'events' => [
+            [
+                'eventAction' => 'registration',
+                'eventDate' => '2024-12-04',
+            ],
+        ],
+    ]);
+
+    expect($domainResponse->registrationDate())->toBeDate('2024-12-04 00:00:00');
+});
