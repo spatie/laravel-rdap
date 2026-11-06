@@ -3,8 +3,10 @@
 namespace Spatie\Rdap\Responses;
 
 use Carbon\Carbon;
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Arr;
 use Spatie\Rdap\Enums\EventAction;
+use TypeError;
 
 class IpResponse
 {
@@ -55,6 +57,14 @@ class IpResponse
         foreach ($events as $event) {
             if ($event["eventAction"] === $eventAction->value) {
                 $dateString = $event["eventDate"];
+
+                if ($dateString === null) {
+                    throw new TypeError('The event date must be a string.');
+                }
+
+                if (trim($dateString) === '') {
+                    throw new InvalidFormatException('The event date must not be empty.');
+                }
 
                 return Carbon::parse($dateString);
             }
