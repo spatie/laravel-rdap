@@ -2,6 +2,23 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## 1.5.2 - 2026-11-06
+
+### Fixed
+
+- Parse date-only RDAP event dates, such as `2024-12-04`, as midnight in the default timezone for both domain and IP responses. Thanks to @mbardelmeijer in https://github.com/spatie/laravel-rdap/pull/62.
+- Preserve explicit timestamp timezones and fractional seconds. Null and blank event values fail instead of silently becoming the current time; absent events still return `null`.
+- Add regression coverage for all four date accessors, timezone day boundaries, invalid values and missing events.
+
+### Compatibility and maintenance
+
+- Retire Laravel 10 and 11 support, as explicitly approved: their security support ended on February 4, 2025 and March 12, 2026 respectively. Laravel 12 and 13 remain supported, with PHP `^8.2` unchanged. Laravel 13 requires PHP 8.3 or higher.
+- Include the already-merged CI update in https://github.com/spatie/laravel-rdap/pull/63: test PHP 8.5 and exploratory PHP 8.6-dev, using compatible test tooling, and retire security-advisory-blocked Laravel 10/11 lanes. No security-advisory or platform checks are bypassed.
+
+Validation: 108 passing tests, 235 assertions and one unchanged skipped timeout test per CI lane; all 16 latest-head and post-merge test lanes, PHPStan and styling passed. Carbon date normalization remains in effect; this is not a strict calendar validator.
+
+**Full Changelog**: https://github.com/spatie/laravel-rdap/compare/1.5.1...1.5.2
+
 ## 1.5.1 - 2026-10-26
 
 ### Fixed
