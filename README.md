@@ -17,6 +17,8 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Installation
 
+This package requires PHP 8.2 or higher and Laravel 12 or 13. Laravel 10 and 11 are no longer supported because their security support has ended.
+
 You can install the package via composer:
 
 ```bash
@@ -92,7 +94,9 @@ These servers are not listed by IANA, so a registry can move or remove them with
 
 ### Get various dates
 
-On an instance of `DomainResponse` you can call various methods to fetch various dates. All of these methods return an instance of `Carbon\Carbon`.
+On an instance of `DomainResponse` or `IpResponse` you can call various methods to fetch various dates. These methods return an instance of `Carbon\Carbon`, or `null` when there is no matching event.
+
+Event dates may be full timestamps or date-only strings such as `2024-12-04`. Timestamps retain their timezone and fractional seconds; date-only values represent midnight in PHP's default timezone. A matching event with a null date raises a `TypeError`; empty or unparseable dates raise a `Carbon\Exceptions\InvalidFormatException` rather than returning the current time. Parsing otherwise follows Carbon's date normalization rules, not strict calendar validation.
 
 ```
 $domain->registrationDate();

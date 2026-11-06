@@ -41,3 +41,16 @@ it('can get a specific property', function () {
     expect($this->ipResponse->get('objectClassName'))->toBe('ip network');
     expect($this->ipResponse->get('links.0.value'))->toBe('https://rdap.arin.net/registry/ip/216.58.207.206');
 });
+
+it('can get event dates that are date-only', function () {
+    $ipResponse = new IpResponse([
+        'events' => [
+            [
+                'eventAction' => 'registration',
+                'eventDate' => '2024-12-04',
+            ],
+        ],
+    ]);
+
+    expect($ipResponse->registrationDate())->toBeDate('2024-12-04 00:00:00');
+});
