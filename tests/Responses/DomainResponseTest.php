@@ -70,6 +70,7 @@ it('parses event dates without losing the date, time or timezone', function (str
         expect($date)->toBeInstanceOf(Carbon::class);
         expect($date->format('Y-m-d H:i:s.uP'))->toBe($expected);
         expect($date->copy()->utc()->format('Y-m-d H:i:s.u'))->toBe($expectedUtc);
+        expect($date->timezoneName)->not->toBe('Z');
     } finally {
         Carbon::setTestNow();
         date_default_timezone_set($originalTimezone);
@@ -85,6 +86,26 @@ it('parses event dates without losing the date, time or timezone', function (str
     'negative offset' => ['2024-12-04T23:45:56.123456-03:30', '2024-12-04 23:45:56.123456-03:30', '2024-12-05 03:15:56.123456'],
     'positive offset' => ['2024-12-04T00:15:30+05:45', '2024-12-04 00:15:30.000000+05:45', '2024-12-03 18:30:30.000000'],
 ]);
+
+it('normalizes Zulu timestamps to UTC so Intl consumers can format them', function (string $responseClass) {
+    $response = new $responseClass([
+        'events' => [['eventAction' => 'registration', 'eventDate' => '2024-02-29T23:59:58Z']],
+    ]);
+
+    $date = $response->registrationDate();
+
+    expect($date)->toBeInstanceOf(Carbon::class);
+    expect($date->timezoneName)->toBe('UTC');
+
+    $formatter = new IntlDateFormatter(
+        'en_US',
+        IntlDateFormatter::LONG,
+        IntlDateFormatter::NONE,
+        $date->getTimezone(),
+    );
+
+    expect($formatter->format($date))->not->toBeFalse();
+})->with([DomainResponse::class, IpResponse::class]);
 
 it('does not invent a date for invalid event values', function (string $responseClass, ?string $input, string $exceptionClass) {
     $response = new $responseClass([
