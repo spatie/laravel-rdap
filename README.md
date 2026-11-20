@@ -96,7 +96,7 @@ These servers are not listed by IANA, so a registry can move or remove them with
 
 On an instance of `DomainResponse` or `IpResponse` you can call various methods to fetch various dates. These methods return an instance of `Carbon\Carbon`, or `null` when there is no matching event.
 
-Event dates may be full timestamps or date-only strings such as `2024-12-04`. Timestamps retain their timezone and fractional seconds; date-only values represent midnight in PHP's default timezone. A matching event with a null date raises a `TypeError`; empty or unparseable dates raise a `Carbon\Exceptions\InvalidFormatException` rather than returning the current time. Parsing otherwise follows Carbon's date normalization rules, not strict calendar validation.
+Event dates may be full timestamps or date-only strings such as `2024-12-04`. Timestamps retain their timezone and fractional seconds; ISO-8601 Zulu (`Z`) timestamps are normalized to `UTC` so consumers like `IntlDateFormatter` can format them. Date-only values represent midnight in PHP's default timezone. A matching event with a null date raises a `TypeError`; empty or unparseable dates raise a `Carbon\Exceptions\InvalidFormatException` rather than returning the current time. Parsing otherwise follows Carbon's date normalization rules, not strict calendar validation.
 
 ```
 $domain->registrationDate();

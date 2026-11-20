@@ -72,10 +72,22 @@ class DomainResponse
                     throw new InvalidFormatException('The event date must not be empty.');
                 }
 
-                return Carbon::parse($dateString);
+                return $this->parseEventDate($dateString);
             }
         }
 
         return null;
+    }
+
+    protected function parseEventDate(string $dateString): Carbon
+    {
+        $date = Carbon::parse($dateString);
+
+        // PHP keeps ISO-8601 Zulu as timezone name "Z", which IntlDateFormatter rejects.
+        if ($date->timezoneName === 'Z') {
+            $date->setTimezone('UTC');
+        }
+
+        return $date;
     }
 }

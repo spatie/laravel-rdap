@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-rdap` will be documented in this file.
 
+## Unreleased
+
+### Fixed
+
+- Normalize ISO-8601 Zulu (`Z`) event timestamps to `UTC` so `IntlDateFormatter` and similar consumers no longer fail with `time zone id 'Z' ... not recognized`.
+
 ## 1.5.2 - 2026-11-06
 
 ### Fixed
