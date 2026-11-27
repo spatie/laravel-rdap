@@ -32,6 +32,7 @@ return [
         'gi' => 'https://rdap.identitydigital.services/rdap/',
         'gl' => 'https://rdap.centralnic.com/gl/',
         'io' => 'https://rdap.identitydigital.services/rdap/',
+        'it.com' => 'https://rdap.it.com/',
         'ki' => 'https://rdap.nic.ki/',
         'kn' => 'https://rdap.nic.kn/',
         'kz' => 'https://rdap.nic.kz/',
